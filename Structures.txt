@@ -1,0 +1,15 @@
+Tuile :
+
+Booléen Départ
+Tableau Case taille 16
+Tableau Mur taille 24
+Liste nom:Sites composé_de:Case
+
+
+Case :
+Type de case	5 types 	(Porte / Objectif / Sortie / Point de départ / Rien)
+Couleur de case 5 couleurs	(Jaune / Orange / Vert / Violet / Rien)
+
+
+Mur :
+Booléen En_Place
