@@ -1,0 +1,50 @@
+Principe de génération
+
+
+
+commencer par déterminer si la tuile est une tuile classique ou de départ ;
+
+Booléen qui note s'il existe une tuile de départ, en créer une si ce booléen est Faux
+Booléen dans la tuile qui indique si elle est de départ ou non
+
+
+
+
+déterminer aléatoirement le nombre, la position et la couleur des portes ;
+
+Rappel : Portes sur les cases 2, 4, 11 et 13
+
+Si Tuile de départ, 4 portes, répartir les couleurs au hasard
+Sinon, nombre de portes aléatoire entre 2 et 4, 1re porte sur 13, les autres réparties aléatoirement, répartir les couleurs au hasard sur les portes autres que 13
+
+
+
+
+
+ajouter si nécessaire les points de départ ;
+
+
+Rappel : Points de départ sur les cases 5, 6, 9 et 10
+
+Si Tuile de départ, ajouter les points de départ
+Sinon, ne rien faire
+
+
+
+positionner éventuellement un objectif ou une sortie sur une case restante ;
+
+Gestion d'une liste de sites "Objectifs/sortie", choisir aléatoirement si la tuile a un site spécial, si oui, en prendre un dans la liste, le poser aléatoirement sur la tuile et le retirer de la liste.
+
+
+
+
+considérer tous les murs comme en place ;
+
+
+Trivial
+
+
+
+briser aléatoirement des murs jusqu'à ce que tous les sites soient reliés.
+
+Jsp

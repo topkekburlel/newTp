@@ -1,0 +1,42 @@
+Union Find
+
+Mélangeur sur les index des murs
+
+Itération du mélangeur :
+- case1 et case 2, les deux cases séparées par le mur
+- i et j des pointeurs vers cases
+- i = fonction représentant(case1)
+- j = fonction représentant(case2)
+- si i != j
+	- si i.rep.h > j.rep.h
+		j.rep.rep = i.rep
+	- si i.rep.h < j.rep.h
+		i.rep.rep = j.rep
+	- sinon
+		j.rep.rep = i.rep
+		i.rep.h + 1
+- sortir le mur du mélangeur
+if (verification_site_relie == True)
+	sortir
+fin iteration
+
+
+
+fonction représentant(Case case1)
+- regarder si case1.rep = case1
+	- si non, case1.rep = représentant(case1.rep)
+- retour case1.rep
+Fin Représentant
+
+
+fonction verification()
+pointeur r = représentant(TabSite[0])
+pour i allant de 1 à nbSite-1
+	si (représentant(TabSite[i]) != r)
+		retour faux
+	fin si
+fin pour
+retour vrai
+fin fonction
+
+
