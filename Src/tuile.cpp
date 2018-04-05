@@ -30,6 +30,52 @@ bool Tuile::mur(Mur m) const {
 	return tabMurs[m.index()];
 }
 
+
+void Tuile::union_site(Site* site1, Site* site2){
+	site1 = rec_representante(site1);
+	site2 = rec_representante(site2);
+	if(site1 != site2){
+		if(site1->hauteur < site2->hauteur){
+			site1->representante = site2;
+		}
+		else{
+			if(site1->hauteur == site2->hauteur){
+				site1->hauteur = site1->hauteur + 1;
+			}
+			site2->representante = site1;
+		}
+	}
+}
+
+bool Tuile::verification(){
+	Site* r = rec_representant(tabVraiSites[0])
+	for(i=1; i<currNbSites; i++){
+		if(rec_representant(tabVraiSites[i]) != r)
+			return false;
+	}
+	return true;
+}
+
+bool Tuile::union_mur(Mur mur){
+	site0 = rec_representante(tabSites[operator[](1).index_]);
+	site1 = rec_representante(tabSites[operator[](0).index_]);
+	if(site0 != site1){
+		if(site0->hauteur < site1->hauteur){
+			site0->representante = site1;
+		}
+		else{
+			if(site0->hauteur == site1->hauteur){
+				site0->hauteur = site0->hauteur + 1;
+			}
+			site1->representante = site0;
+		}
+		tabMurs[mur->index_] = NULL;
+		return verification();
+	}
+	return false;
+}
+
+
 bool Tuile::accessible(Case c) const {
   /* remplacez ce code */
   return false;
@@ -82,7 +128,7 @@ void Tuile::setTuileDepart() {
 	int index;
 	int intCouleurHasard;
 	enum Couleur cc;
-	
+
 	//PORTES
 	for(int k = 0; k<4 ; k++) {
 		index = tabPortes[k];
@@ -107,7 +153,7 @@ void Tuile::setTuileDepart() {
 		tabSites[index]->setColor(cc);
 		tabSites[index]->setType(ACCES);
 	}
-	
+
 	// DEPART
 	for(int i = 0; i<4; i++) {
 		mel.inserer(&i);
@@ -138,7 +184,7 @@ void Tuile::setTuileDepart() {
 }
 
 void Tuile::setPortes() {
-	
+
 }
 
 std::ostream& operator<< (std::ostream& out, const Tuile& t) {
