@@ -23,6 +23,7 @@ Tuile::Tuile() {
         tabMurs[j] = new Mur(j);
 		nbMurs += 1;
     }
+	setTuileDepart();
 }
 
 bool Tuile::mur(Mur m) const {
@@ -74,10 +75,10 @@ void Tuile::setTuileDepart() {
 	tuile_depart = true;
 	Melangeur mel = Melangeur(sizeof(int));
 	for(int i = 0; i<4; i++) {
-		mel.inserer(i);
+		mel.inserer(&i);			// on insere 4 int dans le melangeur qui representera nos couleurs
 	}
-	int* tabPortes = {2,4,11,13};
-	int* tabDepart = {5,6,9,10};
+	int tabPortes[4] = {2,4,11,13};	// tableau des index des sites de type ACCES
+	int tabDepart[4] = {5,6,9,10};	// tableau des index des sites de type POINT_DE_DEPART
 	int index;
 	int intCouleurHasard;
 	enum Couleur cc;
@@ -85,20 +86,55 @@ void Tuile::setTuileDepart() {
 	//PORTES
 	for(int k = 0; k<4 ; k++) {
 		index = tabPortes[k];
-		mel.retirer(intCouleurHasard);
-		
-		tabCases[index]. //  ici faut tirer au sort une couleur
+		mel.retirer(&intCouleurHasard);
+		switch(intCouleurHasard) {
+			case 1:
+				cc = JAUNE;
+				break;
+			case 2:
+				cc = ORANGE;
+				break;
+			case 3:
+				cc = VERT;
+				break;
+			case 0:
+				cc = VIOLET;
+				break;
+			default:
+				std::cerr<<"Erreur : mauvaise couleur tiree pour une porte, iteration k = "<<k<<" et intCouleurHasard = "<<intCouleurHasard<<std::endl;
+				break;
+		}
+		tabSites[index]->setColor(cc);
+		tabSites[index]->setType(ACCES);
 	}
-	tabCases[2].setColor(JAUNE);
-	tabCases[4].setColor(VERT);
-	tabCases[11].setColor(ORANGE);
-	tabCases[13].setColor(VIOLET);
 	
 	// DEPART
-	tabCases[5].setColor(JAUNE);
-	tabCases[6].setColor(VERT);
-	tabCases[9].setColor(ORANGE);
-	tabCases[10].setColor(VIOLET);
+	for(int i = 0; i<4; i++) {
+		mel.inserer(&i);
+	}
+	for(int k = 0; k<4 ; k++) {
+		index = tabDepart[k];
+		mel.retirer(&intCouleurHasard);
+		switch(intCouleurHasard) {
+			case 1:
+				cc = JAUNE;
+				break;
+			case 2:
+				cc = ORANGE;
+				break;
+			case 3:
+				cc = VERT;
+				break;
+			case 0:
+				cc = VIOLET;
+				break;
+			default:
+				std::cerr<<"Erreur : mauvaise couleur tiree pour un depart, iteration k = "<<k<<" et intCouleurHasard = "<<intCouleurHasard<<std::endl;
+				break;
+		}
+		tabSites[index]->setColor(cc);
+		tabSites[index]->setType(POINT_DE_DEPART);
+	}
 }
 
 void Tuile::setPortes() {
