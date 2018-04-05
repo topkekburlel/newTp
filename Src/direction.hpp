@@ -13,7 +13,7 @@ enum Direction {
   DROITE,
   HAUT,
   GAUCHE
-} ;
+};
 
 Direction tourne(Direction d, int r) ;
 

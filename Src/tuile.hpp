@@ -3,6 +3,8 @@
 
 #include "case.hpp"
 #include "mur.hpp"
+#include "melangeur.hpp"
+#include "site.hpp"
 
 #include <vector>
 #include <iostream>
@@ -12,14 +14,16 @@
 namespace MMaze {
 
 class Tuile {
-  //const int TAILLE_MAX = 8;
-
 
   public :
     Case *tabCases[16];
+    Site *tabSites[16];
     Mur *tabMurs[24];
+	int nbMurs;
     int currNbSites;
-    Case *tabSites[TAILLE_MAX];
+    Site *tabVraiSites[TAILLE_MAX];
+	bool tuile_depart;
+	Melangeur *mel;
 
     Tuile();
 
@@ -28,6 +32,11 @@ class Tuile {
 
     //indique si une case est accessible depuis les portes ou non
     bool accessible(Case c) const ;
+	
+	//set la tuile a tuile_depart == true;
+	void setTuileDepart();
+	
+	void setPortes();
 
     //affichage
     friend std::ostream& operator<<(std::ostream& out, const Tuile& t) ;
