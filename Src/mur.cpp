@@ -50,7 +50,7 @@ Case Mur::operator[](unsigned int i) const {
 Mur Mur::tourne(int rotation) const {
   Case c0 = (*this)[0] ;
   Case c1 = (*this)[1] ;
-  return Mur(c0.tourne(rotation), c1.tourne(rotation)) ;
+  return Mur(c0.tourne(rotation), c1.tourne(rotation));
 }
 
 } //end of namespace MMaze
