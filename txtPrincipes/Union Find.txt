@@ -1,35 +1,62 @@
 Union Find
 
 Mélangeur sur les index des murs
+Itération du mélangeur -> mur
 
-Itération du mélangeur :
-- case1 et case 2, les deux cases séparées par le mur
-- i et j des pointeurs vers cases
-- i = fonction représentant(case1)
-- j = fonction représentant(case2)
+Fonction Union(Site1, Site2)
+- i et j des pointeurs vers Site
+- i = fonction représentant(Site1)
+- j = fonction représentant(Site2)
 - si i != j
 	- si i.rep.h > j.rep.h
 		j.rep.rep = i.rep
-	- si i.rep.h < j.rep.h
-		i.rep.rep = j.rep
+	- fin si
 	- sinon
+		- si i.rep.h < j.rep.h
+			i.rep.rep = j.rep
+	  	- fin si
+		- sinon
+			j.rep.rep = i.rep
+			i.rep.h + 1
+	  	- fin sinon
+	- fin sinon
+Fin fonction
+
+Fonction Union_Mur(mur)
+- Site1 et Site2, les deux cases séparées par le mur
+- i et j des pointeurs vers Site
+- i = fonction représentant(Site1)
+- j = fonction représentant(Site2)
+- si i != j
+	- si i.h > j.h
 		j.rep.rep = i.rep
-		i.rep.h + 1
-- sortir le mur du mélangeur
-if (verification_site_relie == True)
-	sortir
-fin iteration
+	- fin si
+	- sinon
+		- si i.rep.h < j.rep.h
+			i.rep.rep = j.rep
+	  	- fin si
+		- sinon
+			j.rep.rep = i.rep
+			i.rep.h + 1
+	  	- fin sinon
+	- fin sinon
+	- casser le mur
+	- if (verification_site_relie == True)
+		retrun true
+fin si
+return false
+fin fonction
 
 
 
-fonction représentant(Case case1)
+Fonction représentant(Case case1)
 - regarder si case1.rep = case1
 	- si non, case1.rep = représentant(case1.rep)
 - retour case1.rep
 Fin Représentant
 
 
-fonction verification()
+Fonction verification()
 pointeur r = représentant(TabSite[0])
 pour i allant de 1 à nbSite-1
 	si (représentant(TabSite[i]) != r)
@@ -38,5 +65,71 @@ pour i allant de 1 à nbSite-1
 fin pour
 retour vrai
 fin fonction
+
+int Fonction VerifMur(Site* site)
+int i = 0
+int j = 0
+int r
+Si site.case.haut()
+	j = site->case->index - 4
+	Si TabMur[j] == NULL
+		i = i+1
+		r = j
+Si site.case.bas()
+	j = site.case.index
+	Si TabMur[j] == NULL
+		i = i+1
+		r = j
+Si site.case.droit()
+	j = site.case.index/4 + 12 + (4 * (site.case.index%4)
+	Si TabMur[j] == NULL
+		i = i+1
+		r = j
+Si site.case.gauche()
+	j = site.case.index/4 - 1 + 12 + (4 * ((site.case.index%4) - 1)
+	Si TabMur[j] == NULL
+		i = i+1
+		r = j
+si i == 1
+	retourne r
+sinon
+	retourne -1
+fin fonction
+
+Fonction aesthetics_Tumblr()
+- pour k allant de 0 à 15
+	si(TabSite[k].Type == Aucun)
+		r = VerifMur(TabSite[k])
+		si(r != -1)
+			""Rajouter TabMur[r]"" 
+		fin si
+	fin si
+  TabSite[k].rep = TabSite[k]
+  fin pour
+- Pour k allant de 0 à 23
+- Si TabMurs[k] == Null
+	Union_Site(TabMurs[k].operator[](0), TabMurs[k].operator[](1)
+- fin si
+- Pour k allant de 0 à 23
+	- Si TabMurs[k] != NULL
+		- Site1 = TabMurs[k].operator[](0)
+		- Site2 = TabMurs[k].operator[](1)
+		- si(!Comparaison(Site1, TabSite[0]) && !Comparaison(Site2, TabSite[0]))
+			TabMurs[k] == NULL;
+		- fin si
+	- fin si
+- fin pour
+fin fonction
+		
+	
+
+
+
+
+
+
+
+
+
 
 
