@@ -1,6 +1,5 @@
 #include "tuile.hpp"
 #include "couleurs.hpp"
-#include "melangeur.hpp"
 
 #include <cassert>
 #include <iostream>
@@ -11,12 +10,11 @@ namespace MMaze {
 Tuile::Tuile() {
     int i,j;
 	nbMurs = 0;
-    currNbSites = 0;
+    indexSites = 0;
 	tuile_depart = false;
 	for(i = 0; i<16; i++)
     {
         tabCases[i] = new Case(i);
-		tabSites[i] = new Site(tabCases[i],AUCUNE,RIEN);
     }
     for(j = 0; j<24; j++)
     {
@@ -31,7 +29,7 @@ bool Tuile::mur(Mur m) const {
 }
 
 
-void Tuile::union_site(Site* site1, Site* site2){
+void Tuile::union_site(Case * site1, Case * site2){
 	site1 = rec_representante(site1);
 	site2 = rec_representante(site2);
 	if(site1 != site2){
@@ -48,9 +46,9 @@ void Tuile::union_site(Site* site1, Site* site2){
 }
 
 bool Tuile::verification(){
-	Site* r = rec_representant(tabVraiSites[0])
+	Case * r = rec_representante(tabVraiSites[0])
 	for(i=1; i<currNbSites; i++){
-		if(rec_representant(tabVraiSites[i]) != r)
+		if(rec_representante(tabVraiSites[i]) != r)
 			return false;
 	}
 	return true;
@@ -77,82 +75,106 @@ bool Tuile::union_mur(Mur mur){
 
 
 bool Tuile::accessible(Case c) const {
-  /* remplacez ce code */
-  return false;
+	/* remplacez ce code */
+	return false;
 }
 
 void Tuile::afficher_horizontal(std::ostream& out, unsigned int i) const {
-  assert(i < 5) ;
-  if(i == 0 || i == 4) {
-    out << "+---+---+---+---+" ;
-  } else {
-    out << "+" ;
-    for(unsigned int m = 0; m < 4; ++m) {
-      Case up = Case(i-1, m) ;
-      Case down = Case(i, m) ;
-      if(mur(Mur(up, down))) {
-        out << "---+" ;
-      } else {
-        out << "   +" ;
-      }
-    }
-  }
+	assert(i < 5) ;
+	if(i == 0 || i == 4) {
+		out << "+---+---+---+---+" ;
+	} else {
+		out << "+" ;
+		for(unsigned int m = 0; m < 4; ++m) {
+		  Case up = Case(i-1, m) ;
+		  Case down = Case(i, m) ;
+		  if(mur(Mur(up, down))) {
+			out << "---+" ;
+		  } else {
+			out << "   +" ;
+		  }
+		}
+	}
 }
 
 void Tuile::afficher_vertical(std::ostream& out, unsigned int i) const {
-  assert(i < 4) ;
-  out << "|" ;
-  for(unsigned int m = 0; m < 4; ++m) {
-    out << "   " ;
-    if(m < 3) {
-      Case left = Case(i, m) ;
-      Case right = Case(i, m+1) ;
-      if(m < 3 && mur(Mur(left, right))) {
-        out << "|" ;
-      } else {
-        out << " " ;
-      }
-    }
-  }
-  out << "|" ;
+	assert(i < 4) ;
+	out << "|" ;
+	for(unsigned int m = 0; m < 4; ++m) {
+		out << "   ";
+		if(m < 3) {
+			Case left = Case(i, m);
+			Case right = Case(i, m+1);
+			if(m < 3 && mur(Mur(left, right))) {
+				out << "|";
+			} else {
+				out << " ";
+			}
+		}
+	}
+	out << "|" ;
 }
 
 void Tuile::setTuileDepart() {
 	tuile_depart = true;
-	Melangeur mel = Melangeur(sizeof(int));
-	for(int i = 0; i<4; i++) {
-		mel.inserer(&i);			// on insere 4 int dans le melangeur qui representera nos couleurs
-	}
-	int tabPortes[4] = {2,4,11,13};	// tableau des index des sites de type ACCES
-	int tabDepart[4] = {5,6,9,10};	// tableau des index des sites de type POINT_DE_DEPART
+	//PORTES
+	setPortes(tuile_depart);
+	
+	// DEPART
+	setDepart();
+}
+
+void Tuile::setTuileNormale() {
+	tuile_depart = false;	
+	
+	//PORTES A MODIFIER
+	setPortes(tuile_depart);
+}
+
+void Tuile::setPortes(bool depart) {
 	int index;
 	int intCouleurHasard;
 	enum Couleur cc;
-
-	//PORTES
-	for(int k = 0; k<4 ; k++) {
-		index = tabPortes[k];
-		mel.retirer(&intCouleurHasard);
-		switch(intCouleurHasard) {
-			case 1:
-				cc = JAUNE;
-				break;
-			case 2:
-				cc = ORANGE;
-				break;
-			case 3:
-				cc = VERT;
-				break;
-			case 0:
-				cc = VIOLET;
-				break;
-			default:
-				std::cerr<<"Erreur : mauvaise couleur tiree pour une porte, iteration k = "<<k<<" et intCouleurHasard = "<<intCouleurHasard<<std::endl;
-				break;
+	int tabPortes[4] = {2,4,11,13};		// tableau des index des sites de type ACCES
+	if(depart) {
+		Melangeur mel = Melangeur(sizeof(int));
+		for(int i = 0; i<4; i++) {
+			mel.inserer(&i);				// on insere 4 int dans le melangeur qui representera nos couleurs
 		}
-		tabSites[index]->setColor(cc);
-		tabSites[index]->setType(ACCES);
+		for(int k = 0; k<4 ; k++) {
+			index = tabPortes[k];
+			mel.retirer(&intCouleurHasard);
+			switch(intCouleurHasard) {
+				case 1:
+					cc = JAUNE;
+					break;
+				case 2:
+					cc = ORANGE;
+					break;
+				case 3:
+					cc = VERT;
+					break;
+				case 0:
+					cc = VIOLET;
+					break;
+				default:
+					std::cerr<<"Erreur : mauvaise couleur tiree pour une porte, iteration k = "<<k<<" et intCouleurHasard = "<<intCouleurHasard<<std::endl;
+					break;
+			}
+			tabCases[index]->setColor(cc);
+			tabCases[index]->setType(ACCES);
+			tabSites[indexSites] = tabCases[index];
+			indexSites += 1;
+		}
 	}
+}
+
+void Tuile::setDepart() {
+	int index;
+	int intCouleurHasard;
+	enum Couleur cc;
+	int tabDepart[4] = {5,6,9,10};	// tableau des index des sites de type POINT_DE_DEPART
+	Melangeur mel = Melangeur(sizeof(int));
 
 	// DEPART
 	for(int i = 0; i<4; i++) {
@@ -178,14 +200,13 @@ void Tuile::setTuileDepart() {
 				std::cerr<<"Erreur : mauvaise couleur tiree pour un depart, iteration k = "<<k<<" et intCouleurHasard = "<<intCouleurHasard<<std::endl;
 				break;
 		}
-		tabSites[index]->setColor(cc);
-		tabSites[index]->setType(POINT_DE_DEPART);
+		tabCases[index]->setColor(cc);
+		tabCases[index]->setType(POINT_DE_DEPART);
+		tabSites[indexSites] = tabCases[index];
+		indexSites += 1;
 	}
 }
 
-void Tuile::setPortes() {
-
-}
 
 std::ostream& operator<< (std::ostream& out, const Tuile& t) {
   for(unsigned int i = 0; i < 4; ++i) {
