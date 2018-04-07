@@ -48,6 +48,9 @@ class Tuile {
 	
 	//set les cases de depart des joueurs pour la tuile de depart
 	void setDepart();
+	
+	// Change la couleur du Background
+	const char* returnCouleurBG(Case * c) const;
 
     //affichage
     friend std::ostream& operator<<(std::ostream& out, const Tuile& t) ;

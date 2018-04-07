@@ -9,7 +9,7 @@ namespace MMaze {
     VERT,
     ORANGE,
     VIOLET
-  } ;
+  };
 
   extern const char* TXT_CLEAR ;
   extern const char* TXT_BOLD ;

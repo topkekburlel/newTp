@@ -177,6 +177,27 @@ void Tuile::setDepart() {
 	}
 }
 
+const char* Tuile::returnCouleurBG(Case * c) const {
+	enum Couleur co = c->getCouleur();
+	switch(co) {
+			case JAUNE:
+				return BG_JAUNE;
+				break;
+			case VERT:
+				return BG_VERT;
+				break;
+			case ORANGE:
+				return BG_ORANGE;
+				break;
+			case VIOLET:
+				return BG_VIOLET;
+				break;
+			default:
+				return BG_DEFAULT;
+				break;
+		}
+}
+
 void Tuile::afficher_horizontal(std::ostream& out, unsigned int i) const {
 	assert(i < 5);
 	if(i == 0) {
@@ -184,7 +205,7 @@ void Tuile::afficher_horizontal(std::ostream& out, unsigned int i) const {
 		for(unsigned int m = 0; m < 4; ++m) {
 			Case * down = tabCases[i+m];
 			if(down->getType()==ACCES) {
-				out << " ^ +";
+				out <<returnCouleurBG(down)<<" ^ "<<BG_DEFAULT<<"+";
 			} else {
 				out << "---+";
 			}
@@ -194,7 +215,7 @@ void Tuile::afficher_horizontal(std::ostream& out, unsigned int i) const {
 		for(unsigned int m = 0; m < 4; ++m) {
 			Case * up = tabCases[3*i+m];
 			if(up->getType()==ACCES) {
-				out << " v +";
+				out <<returnCouleurBG(up)<<" v "<<BG_DEFAULT<<"+";
 			} else {
 				out << "---+";
 			}
@@ -215,7 +236,7 @@ void Tuile::afficher_horizontal(std::ostream& out, unsigned int i) const {
 
 void Tuile::afficher_vertical(std::ostream& out, unsigned int i) const {
 	assert(i < 4);
-	if(tabCases[4*i]->getType()==ACCES) { out << "<"; }
+	if(tabCases[4*i]->getType()==ACCES) { out<<returnCouleurBG(tabCases[4*i])<<"<"<<BG_DEFAULT; }
 	else { out << "|"; }
 	for(unsigned int m = 0; m < 4; ++m) {
 		out << "   ";
@@ -229,7 +250,7 @@ void Tuile::afficher_vertical(std::ostream& out, unsigned int i) const {
 			}
 		}
 	}
-	if(tabCases[4*i+3]->getType()==ACCES) { out << ">"; }
+	if(tabCases[4*i+3]->getType()==ACCES) { out<<returnCouleurBG(tabCases[4*i+3])<<">"<<BG_DEFAULT; }
 	else { out << "|"; }
 }
 
