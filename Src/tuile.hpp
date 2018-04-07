@@ -51,7 +51,17 @@ class Tuile {
 	
 	// Change la couleur du Background
 	const char* returnCouleurBG(Case * c) const;
-
+	
+	// cherche la representante "globale" de la tuile
+	Case * rec_representante(Case * cr);
+	
+	
+	//on casse les murs comme ca
+	void casse_murDroite(Case * c);
+	void casse_murGauche(Case * c);
+	void casse_murHaut(Case * c);
+	void casse_murBas(Case * c);
+	
     //affichage
     friend std::ostream& operator<<(std::ostream& out, const Tuile& t) ;
 

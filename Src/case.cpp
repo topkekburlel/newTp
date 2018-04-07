@@ -85,13 +85,17 @@ enum Types Case::getType() {
 void Case::setRepresentante(Case * rpz) {
 	representante = rpz;
 }
-	
-Case * Case::rec_representante(Case * cr) {
-	if(cr->representante != cr)
-	{
-		cr->representante = rec_representante(cr->representante);
-	}
-	return cr->representante;
+
+Case * Case::getRepresentante() {
+	return representante;
+}
+
+int Case::distanceXCases(Case * c) {
+	return (this->index_%4)-(c->index_%4);
+}
+
+int Case::distanceYCases(Case * c) {
+	return (this->index_/4)-(c->index_/4);
 }
 
 unsigned int Case::operator[](unsigned int i) const {

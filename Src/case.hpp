@@ -13,8 +13,8 @@ namespace MMaze {
 		ACCES
 	 };
 /* +---+---+---+---+
- * | 0 | 1 | 2 | 3 |
- * +---+---+---+---+
+ * | 0 | 1 | 2 | 3 |	colonne : i%4
+ * +---+---+---+---+	ligne : i/4
  * | 4 | 5 | 6 | 7 |
  * +---+---+---+---+
  * | 8 | 9 | 10| 11|
@@ -78,9 +78,10 @@ class Case {
 		
 		// Set la representante de la case courante
 		void setRepresentante(Case * rpz);
+		Case * getRepresentante();
 		
-		// cherche la representante "globale" de la tuile
-		Case * rec_representante(Case * cr);
+		int distanceXCases(Case * c);
+		int distanceYCases(Case * c);
 
 	private :
 

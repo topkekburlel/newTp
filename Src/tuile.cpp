@@ -28,22 +28,116 @@ bool Tuile::mur(Mur m) const {
 	return tabMurs[m.index()];
 }
 
-/*
-void Tuile::union_site(Case * site1, Case * site2){
-	site1 = rec_representante(site1);
-	site2 = rec_representante(site2);
-	if(site1 != site2){
-		if(site1->hauteur < site2->hauteur){
-			site1->representante = site2;
-		}
-		else{
-			if(site1->hauteur == site2->hauteur){
-				site1->hauteur = site1->hauteur + 1;
-			}
-			site2->representante = site1;
+Case * Tuile::rec_representante(Case * cr) {
+	if(cr->getRepresentante() != cr)
+	{
+		cr->setRepresentante(rec_representante(cr->getRepresentante()));
+	}
+	return cr->getRepresentante();
+}
+
+	// int distanceXCases(Case * c);
+	// int distanceYCases(Case * c);
+
+void Tuile::union_site(Case * site1, Case * site2) {
+	Case * s1 = rec_representante(site1);
+	Case * s2 = rec_representante(site2);
+	Case * tmpRepresentante;
+	int currDistanceX;
+	int currDistanceY;
+	if(site1 == site2) { return; }
+	while(true) {
+		currDistanceX = s1->distanceXCases(s2);
+		currDistanceY = s1->distanceYCases(s2);
+		if(currDistanceX < 0) { // s1 est sur la gauche(x) de s2
+			// un pas a droite
+			tmpRepresentante = s1;
+			s1 = tabCases[s1->index()+1];
+			s1->setRepresentante(tmpRepresentante);
+			// et on casse le mur de gauche
+			casse_murGauche(s1);
+		} else if(currDistanceX > 0) { // s1 est sur la droite(x) de s2
+			// un pas a gauche
+			tmpRepresentante = s1;
+			s1 = tabCases[s1->index()-1];
+			s1->setRepresentante(tmpRepresentante);
+			// et on casse le mur de droite
+			casse_murDroite(s1);
+		} else if(currDistanceY > 0) { // s1 est en bas(y) de s2
+			// un pas en haut
+			tmpRepresentante = s1;
+			s1 = tabCases[s1->index()-4];
+			s1->setRepresentante(tmpRepresentante);
+			// et on casse le mur d'en bas
+			casse_murBas(s1);
+		} else if(currDistanceY < 0) { // s1 est en haut(y) de s2
+			// un pas en bas
+			tmpRepresentante = s1;
+			s1 = tabCases[s1->index()+4];
+			s1->setRepresentante(tmpRepresentante);
+			// et on casse le mur d'en haut
+			casse_murHaut(s1);
+		} else {
+			break;
 		}
 	}
 }
+
+void Tuile::casse_murDroite(Case * c) {
+	int colonneCase = c->index()%4;
+	int ligneCase = c->index()/4;
+	switch(colonneCase) {
+		case 0:
+			tabMurs[ligneCase+12] = nullptr;
+			break;
+		case 1:
+			tabMurs[ligneCase+16] = nullptr;
+			break;
+		case 2:
+			tabMurs[ligneCase+20] = nullptr;
+			break;
+		default:
+			std::cerr<<"Erreur : casse_murDroite == ECHEC"<<std::endl;
+			break;
+	}
+}
+
+void Tuile::casse_murGauche(Case * c) {
+	int colonneCase = c->index()%4;
+	int ligneCase = c->index()/4;
+	switch(colonneCase) {
+		case 1:
+			tabMurs[ligneCase+12] = nullptr;
+			break;
+		case 2:
+			tabMurs[ligneCase+16] = nullptr;
+			break;
+		case 3:
+			tabMurs[ligneCase+20] = nullptr;
+			break;
+		default:
+			std::cerr<<"Erreur : casse_murGauche == ECHEC"<<std::endl;
+			break;
+	}
+}
+
+void Tuile::casse_murBas(Case * c) {
+	if(c->index()<12) {
+		tabMurs[c->index()] = nullptr;
+		return;
+	}
+	std::cerr<<"Erreur : casse_murBas == ECHEC"<<std::endl;
+}
+
+void Tuile::casse_murHaut(Case * c) {
+	if(c->index()>3) {
+		tabMurs[c->index()-4] = nullptr;
+		return;
+	}
+	std::cerr<<"Erreur : casse_murHaut == ECHEC"<<std::endl;
+}
+
+/*
 
 bool Tuile::verification(){
 	Case * r = rec_representante(tabVraiSites[0])
@@ -82,11 +176,17 @@ bool Tuile::accessible(Case c) const {
 
 void Tuile::setTuileDepart() {
 	tuile_depart = true;
+	
 	//PORTES
 	setPortes(tuile_depart);
 	
 	// DEPART
 	setDepart();
+	
+	// UNION FIND
+	for(int j = 0;j<indexSites;j++) {
+		union_site(tabSites[j],tabSites[0]);
+	}
 }
 
 void Tuile::setTuileNormale() {
