@@ -68,9 +68,13 @@ class Case {
 		
 		// Set la couleur de la case
 		void setColor(enum Couleur c);
+		// Get la couleur de la case
+		enum Couleur getCouleur();
 		
 		// Set le type de la case 
 		void setType(enum Types t);
+		// Get le type de la case
+		enum Types getType();
 		
 		// Set la representante de la case courante
 		void setRepresentante(Case * rpz);

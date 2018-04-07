@@ -28,7 +28,7 @@ bool Tuile::mur(Mur m) const {
 	return tabMurs[m.index()];
 }
 
-
+/*
 void Tuile::union_site(Case * site1, Case * site2){
 	site1 = rec_representante(site1);
 	site2 = rec_representante(site2);
@@ -72,48 +72,13 @@ bool Tuile::union_mur(Mur mur){
 	}
 	return false;
 }
-
+*/
 
 bool Tuile::accessible(Case c) const {
 	/* remplacez ce code */
 	return false;
 }
 
-void Tuile::afficher_horizontal(std::ostream& out, unsigned int i) const {
-	assert(i < 5) ;
-	if(i == 0 || i == 4) {
-		out << "+---+---+---+---+" ;
-	} else {
-		out << "+" ;
-		for(unsigned int m = 0; m < 4; ++m) {
-		  Case up = Case(i-1, m) ;
-		  Case down = Case(i, m) ;
-		  if(mur(Mur(up, down))) {
-			out << "---+" ;
-		  } else {
-			out << "   +" ;
-		  }
-		}
-	}
-}
-
-void Tuile::afficher_vertical(std::ostream& out, unsigned int i) const {
-	assert(i < 4) ;
-	out << "|" ;
-	for(unsigned int m = 0; m < 4; ++m) {
-		out << "   ";
-		if(m < 3) {
-			Case left = Case(i, m);
-			Case right = Case(i, m+1);
-			if(m < 3 && mur(Mur(left, right))) {
-				out << "|";
-			} else {
-				out << " ";
-			}
-		}
-	}
-	out << "|" ;
-}
 
 void Tuile::setTuileDepart() {
 	tuile_depart = true;
@@ -161,6 +126,11 @@ void Tuile::setPortes(bool depart) {
 					std::cerr<<"Erreur : mauvaise couleur tiree pour une porte, iteration k = "<<k<<" et intCouleurHasard = "<<intCouleurHasard<<std::endl;
 					break;
 			}
+			/*
+			Case(index).setColor(cc);
+			std::cout<<Case(index).index()<<" Set color a la valeur : "<<Case(index).getCouleur()<<" grace a cc = "<<cc<<std::endl;
+			Case(index).setType(ACCES);
+			*/
 			tabCases[index]->setColor(cc);
 			tabCases[index]->setType(ACCES);
 			tabSites[indexSites] = tabCases[index];
@@ -207,15 +177,70 @@ void Tuile::setDepart() {
 	}
 }
 
+void Tuile::afficher_horizontal(std::ostream& out, unsigned int i) const {
+	assert(i < 5);
+	if(i == 0) {
+		out << "+";
+		for(unsigned int m = 0; m < 4; ++m) {
+			Case * down = tabCases[i+m];
+			if(down->getType()==ACCES) {
+				out << " ^ +";
+			} else {
+				out << "---+";
+			}
+		}
+	} else if(i == 4) {
+		out << "+";
+		for(unsigned int m = 0; m < 4; ++m) {
+			Case * up = tabCases[3*i+m];
+			if(up->getType()==ACCES) {
+				out << " v +";
+			} else {
+				out << "---+";
+			}
+		}
+	} else {
+		out << "+";
+		for(unsigned int m = 0; m < 4; ++m) {
+			Case up = Case(i-1, m);
+			Case down = Case(i, m);
+			if(mur(Mur(up, down))) {
+				out << "---+";
+			} else {
+				out << "   +";
+			}
+		}
+	}
+}
+
+void Tuile::afficher_vertical(std::ostream& out, unsigned int i) const {
+	assert(i < 4);
+	if(tabCases[4*i]->getType()==ACCES) { out << "<"; }
+	else { out << "|"; }
+	for(unsigned int m = 0; m < 4; ++m) {
+		out << "   ";
+		if(m < 3) {
+			Case left = Case(i, m);
+			Case right = Case(i, m+1);
+			if(m < 3 && mur(Mur(left, right))) {
+				out << "|";
+			} else {
+				out << " ";
+			}
+		}
+	}
+	if(tabCases[4*i+3]->getType()==ACCES) { out << ">"; }
+	else { out << "|"; }
+}
 
 std::ostream& operator<< (std::ostream& out, const Tuile& t) {
   for(unsigned int i = 0; i < 4; ++i) {
-    t.afficher_horizontal(out, i) ;
+    t.afficher_horizontal(out, i);
     out << std::endl ;
-    t.afficher_vertical(out, i) ;
+    t.afficher_vertical(out, i);
     out << std::endl ;
   }
-  t.afficher_horizontal(out, 4) ;
+  t.afficher_horizontal(out, 4);
   return out ;
 }
 

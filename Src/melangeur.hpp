@@ -29,7 +29,6 @@ class Melangeur {
 		
 		char* accesDernierElem(int indiceElem);
 
-		/* vos membres ici */
 
 } ;
 

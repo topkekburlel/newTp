@@ -69,9 +69,17 @@ Case Case::voisine(Direction d) const {
 void Case::setColor(enum Couleur c) {
 	color = c;
 }
+
+enum Couleur Case::getCouleur() {
+	return color;
+}
 	
 void Case::setType(enum Types t) {
 	type = t;
+}
+
+enum Types Case::getType() {
+	return type;
 }
   
 void Case::setRepresentante(Case * rpz) {
