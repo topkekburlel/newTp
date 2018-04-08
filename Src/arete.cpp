@@ -2,7 +2,13 @@
 
 arete::arete()
 {
-    //ctor
+    noeud* = nullptr;
+}
+
+arete::arete(int direction_, int taille_, noeud* dest_){
+    direction = direction_;
+    taille = taille_;
+    dest = dest_;
 }
 
 arete::~arete()
