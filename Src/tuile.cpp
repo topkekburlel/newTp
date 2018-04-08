@@ -182,11 +182,15 @@ void Tuile::setTuileDepart() {
 	
 	// DEPART
 	setDepart();
-	
 	// UNION FIND
 	for(int j = 0;j<indexSites;j++) {
 		union_site(tabSites[j],tabSites[0]);
 	}
+	/* look up for representante
+	for(int j = 0;j<indexSites;j++) {
+		std::cout<<"tabSites["<<j<<"]->getRepresentante() == "<<tabSites[j]->getRepresentante()<<std::endl;
+	}
+	*/
 }
 
 void Tuile::setTuileNormale() {
