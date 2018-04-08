@@ -3,11 +3,11 @@
 joueur::joueur()
 {
     tuile_act = nullptr;
-	position = 0;
+	position = -1;
 	c = AUCUNE;
 }
 
-Joueur::joueur(int i, tuile* depart){
+joueur::joueur(int i, tuile* depart){
 	tuile_act = depart;
 	position = 1 + 4*(i/2) + (i%2);
 	c = tabCases[position]->color;
@@ -15,5 +15,13 @@ Joueur::joueur(int i, tuile* depart){
 
 joueur::~joueur()
 {
-    //dtor
+    tuile_act = nullptr;
+}
+
+joueur::mouvement()
+{
+    //gestion des graphes, toussa toussa
+
+    //
+
 }
