@@ -12,6 +12,10 @@ Tuile::Tuile() {
 	nbMurs = 0;
     indexSites = 0;
 	tuile_depart = false;
+	up = nullptr;
+	down = nullptr;
+	right = nullptr;
+	left = nullptr;
 	for(i = 0; i<16; i++)
     {
         tabCases[i] = new Case(i);
@@ -176,13 +180,13 @@ bool Tuile::accessible(Case c) const {
 
 void Tuile::setTuileDepart() {
 	tuile_depart = true;
-	
+
 	//PORTES
 	setPortes(tuile_depart);
-	
+
 	// DEPART
 	setDepart();
-	
+
 	// UNION FIND
 	for(int j = 0;j<indexSites;j++) {
 		union_site(tabSites[j],tabSites[0]);
@@ -190,8 +194,8 @@ void Tuile::setTuileDepart() {
 }
 
 void Tuile::setTuileNormale() {
-	tuile_depart = false;	
-	
+	tuile_depart = false;
+
 	//PORTES A MODIFIER
 	setPortes(tuile_depart);
 }
