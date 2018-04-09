@@ -1,11 +1,13 @@
 #include "arete.hpp"
 
+#include "case.hpp"
+
 arete::arete()
 {
-    noeud* = nullptr;
+    case* = nullptr;
 }
 
-arete::arete(int direction_, int taille_, noeud* dest_){
+arete::arete(int direction_, int taille_, case* dest_){
     direction = direction_;
     taille = taille_;
     dest = dest_;
