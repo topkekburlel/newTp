@@ -2,7 +2,7 @@
 #define ARETE_HPP
 
 
-
+namespace MMaze {
 class arete
 {
     public:
@@ -19,5 +19,5 @@ class arete
 
     private:
 };
-
+}
 #endif // ARETE_HPP

@@ -1,5 +1,7 @@
 #include "joueur.hpp"
 
+
+namespace MMaze {
 joueur::joueur()
 {
     tuile_act = nullptr;
@@ -23,4 +25,5 @@ joueur::mouvement(int tuile, int pos)
 {
     tuile_act = plat_jeu[tuile];
     position = pos;
+}
 }

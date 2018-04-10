@@ -3,6 +3,8 @@
 #include "Plateau.hpp"
 #include "tuile.hpp"
 
+
+namespace MMaze {
 class joueur
 {
     public:
@@ -22,5 +24,5 @@ class joueur
 
     private:
 };
-
+}
 #endif // JOUEUR_HPP

@@ -3,7 +3,7 @@
 
 #include "tuile.hpp"
 
-
+namespace MMaze {
 class Plateau
 {
     public:
@@ -16,6 +16,8 @@ class Plateau
     protected:
 
     private:
+
 };
+}
 
 #endif // PLATEAU_HPP
