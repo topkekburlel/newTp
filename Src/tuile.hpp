@@ -15,6 +15,7 @@ namespace MMaze {
 class Tuile {
 
   public :
+    int id;
     Case *tabCases[16];
     Mur *tabMurs[24];
 	int nbMurs;
@@ -46,10 +47,10 @@ class Tuile {
 
 	//set une tuile normale
 	void setTuileNormale();
-	
+
 	//set une tuile avec UN objectif
 	void setTuileObjectif(int cc);
-	
+
 	//set une tuile avec UNE sortie
 	void setTuileSortie(int cc);
 
@@ -58,9 +59,9 @@ class Tuile {
 
 	//set les cases de depart des joueurs pour la tuile de depart
 	void setDepart();
-	
+
 	void setSorties(int cc);
-	
+
 	void setObjectifs(int cc);
 
 	// Change la couleur du Background

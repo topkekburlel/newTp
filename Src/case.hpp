@@ -39,14 +39,14 @@ class Case {
 	public :
 
 		//construction depuis ligne et colonne
-		Case(unsigned int l, unsigned int c);
+		Case(unsigned int l, unsigned int c, int t);
 
 		//construction implicite depuis un entier dans [0,15], voir ci-dessus
-		explicit Case(unsigned int index);
+		explicit Case(unsigned int index, int t);
 
 		//conversion vers un entier dans [0,15], voir ci-dessus
 		unsigned int index() const ;
-		
+
 
 		//egalite entre les cases
 		bool operator==(Case rhs) const;
@@ -66,43 +66,45 @@ class Case {
 
 		//rotation de la case
 		Case tourne(int rotation) const;
-		
+
 		// Set la couleur de la case
 		void setColor(enum Couleur c);
 		// Get la couleur de la case
 		enum Couleur getCouleur();
-		
-		// Set le type de la case 
+
+		// Set le type de la case
 		void setType(enum Types t);
 		// Get le type de la case
 		enum Types getType();
-		
+
 		// Set la representante de la case courante
 		void setRepresentante(Case * rpz);
 		Case * getRepresentante();
-		
+
 		int distanceXCases(Case * c);
 		int distanceYCases(Case * c);
-		
-		void setHaut(Case * c);
+
+/*		void setHaut(Case * c);
 		void setBas(Case * c);
 		void setGauche(Case * c);
 		void setDroite(Case * c);
-		
+
 		Case * getHaut();
 		Case * getBas();
 		Case * getGauche();
 		Case * getDroite();
-		
+*/
 
 	private :
 
 		//stockage sous forme d'un entier comme ci-dessus
 		unsigned int index_;
+		int app_tuile;
 		enum Couleur color;
 		enum Types type;
 		Case * representante;
-<<<<<<< HEAD
+		arete* tab_access[14];
+/*<<<<<<< HEAD
 		Case * ptrHaut;
 		Case * ptrBas;
 		Case * ptrGauche;
@@ -110,7 +112,7 @@ class Case {
 		//Case * tab_pointeurVersCases[14];
 =======
 >>>>>>> parent of 749385d... Modif Viteuf
-
+*/
 };
 
 } //end of namespace MMaze

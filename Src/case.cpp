@@ -6,27 +6,29 @@
 
 namespace MMaze {
 
-Case::Case(unsigned int l, unsigned int c) {
+Case::Case(unsigned int l, unsigned int c, int t) {
 	assert(l < 4 && c < 4);
 	index_ = 4*l + c ;
 	color = AUCUNE;
 	type = RIEN;
 	representante = this;
-	ptrHaut = nullptr;
+	app_tuile = t;
+/*	ptrHaut = nullptr;
 	ptrBas = nullptr;
 	ptrGauche = nullptr;
-	ptrDroite = nullptr;
+	ptrDroite = nullptr;*/
 }
 
-Case::Case(unsigned int index) : index_(index) {
+Case::Case(unsigned int index, int t) : index_(index) {
 	assert(index < 16);
 	color = AUCUNE;
 	type = RIEN;
 	representante = this;
-	ptrHaut = nullptr;
+	app_tuile = t;
+/*	ptrHaut = nullptr;
 	ptrBas = nullptr;
 	ptrGauche = nullptr;
-	ptrDroite = nullptr;
+	ptrDroite = nullptr;*/
 }
 
 unsigned int Case::index() const {
@@ -64,7 +66,7 @@ Case Case::droite() const {
 	}
 	return Case(index_ + 1) ;
 }
-
+/*
 void Case::setHaut(Case * c) {
 	ptrHaut = c;
 }
@@ -104,7 +106,7 @@ Case Case::voisine(Direction d) const {
 		default : assert(false);
 	}
 }
-
+*/
 void Case::setColor(enum Couleur c) {
 	color = c;
 }
@@ -112,7 +114,7 @@ void Case::setColor(enum Couleur c) {
 enum Couleur Case::getCouleur() {
 	return color;
 }
-	
+
 void Case::setType(enum Types t) {
 	type = t;
 }
@@ -120,7 +122,7 @@ void Case::setType(enum Types t) {
 enum Types Case::getType() {
 	return type;
 }
-  
+
 void Case::setRepresentante(Case * rpz) {
 	representante = rpz;
 }

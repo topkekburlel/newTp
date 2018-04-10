@@ -29,6 +29,28 @@ Tuile::Tuile() {
 	setTuileDepart();
 }
 
+Tuile::Tuile(int id_) {
+    id = id_;
+    int i,j;
+	nbMurs = 0;
+    indexSites = 0;
+	tuile_depart = false;
+	up = nullptr;
+	down = nullptr;
+	right = nullptr;
+	left = nullptr;
+	for(i = 0; i<16; i++)
+    {
+        tabCases[i] = new Case(i, id);
+    }
+    for(j = 0; j<24; j++)
+    {
+        tabMurs[j] = new Mur(j);
+		nbMurs += 1;
+    }
+	setTuileDepart();
+}
+
 bool Tuile::mur(Mur m) const {
 	return tabMurs[m.index()];
 }
@@ -203,7 +225,7 @@ void Tuile::setTuileDepart() {
 
 	// DEPARTS
 	setDepart();
-	
+
 	// UNION FIND
 	for(int j = 0;j<indexSites;j++) {
 		union_site(tabSites[j],tabSites[0]);
@@ -220,7 +242,7 @@ void Tuile::setTuileNormale() {
 
 	//PORTES
 	setPortes(tuile_depart);
-	
+
 	// UNION FIND
 	for(int j = 0;j<indexSites;j++) {
 		union_site(tabSites[j],tabSites[0]);
@@ -232,10 +254,10 @@ void Tuile::setTuileObjectif(int cc) {
 
 	//PORTES
 	setPortes(tuile_depart);
-	
+
 	//OBJECTIFS
 	setObjectifs(cc);
-	
+
 	// UNION FIND
 	for(int j = 0;j<indexSites;j++) {
 		union_site(tabSites[j],tabSites[0]);
@@ -247,10 +269,10 @@ void Tuile::setTuileSortie(int cc) {
 
 	//PORTES
 	setPortes(tuile_depart);
-	
+
 	//SORTIES
 	setSorties(cc);
-	
+
 	// UNION FIND
 	for(int j = 0;j<indexSites;j++) {
 		union_site(tabSites[j],tabSites[0]);
@@ -298,14 +320,14 @@ void Tuile::setPortes(bool depart) {
 		}
 		srand((int)time(0)); 		// sinon la generation de "random" est nulle
 		int uneOuDeuxSorties = (rand()%3)+1; // 1,2 ou 3 sortie de couleur
-		
+
 		/* on place l'entree de la tuile */
 		mel.retirer(&intCouleurHasard); // on reutilise "intCouleurHasard" pour tirer au sort une case ACCES
 		index = tabPortes[intCouleurHasard];
 		tabCases[index]->setType(ACCES);
 		tabSites[indexSites] = tabCases[index];
 		indexSites += 1;
-		
+
 		for(int i = 1;i<=uneOuDeuxSorties;i++) {
 			mel.retirer(&intCouleurHasard);
 			index = tabPortes[intCouleurHasard];
