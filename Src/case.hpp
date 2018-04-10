@@ -44,6 +44,7 @@ class Case {
 		Arete* tab_access[14];
 		int nbArete;
         int app_tuile;
+        bool visit;
 
 		//construction depuis ligne et colonne
 		Case(unsigned int l, unsigned int c, int t);

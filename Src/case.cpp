@@ -14,6 +14,7 @@ Case::Case(unsigned int l, unsigned int c, int t) {
 	representante = this;
 	app_tuile = t;
 	nbArete = 0;
+	visit = true;
 /*	ptrHaut = nullptr;
 	ptrBas = nullptr;
 	ptrGauche = nullptr;
@@ -27,6 +28,7 @@ Case::Case(unsigned int index, int t) : index_(index) {
 	representante = this;
 	app_tuile = t;
 	nbArete = 0;
+	visit = true;
 /*	ptrHaut = nullptr;
 	ptrBas = nullptr;
 	ptrGauche = nullptr;
