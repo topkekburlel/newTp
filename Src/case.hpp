@@ -37,6 +37,13 @@ namespace MMaze {
 class Case {
 
 	public :
+        unsigned int index_;
+		enum Couleur color;
+		enum Types type;
+		Case * representante;
+		arete* tab_access[14];
+		int nbArete;
+        int app_tuile;
 
 		//construction depuis ligne et colonne
 		Case(unsigned int l, unsigned int c, int t);
@@ -54,7 +61,7 @@ class Case {
 		//cases voisines par direction
 		//exception si non existante
 		Case bas() const;
-		Case droite() const;
+        Case droite() const;
 		Case haut() const;
 		Case gauche() const;
 
@@ -98,12 +105,7 @@ class Case {
 	private :
 
 		//stockage sous forme d'un entier comme ci-dessus
-		unsigned int index_;
-		int app_tuile;
-		enum Couleur color;
-		enum Types type;
-		Case * representante;
-		arete* tab_access[14];
+
 /*<<<<<<< HEAD
 		Case * ptrHaut;
 		Case * ptrBas;

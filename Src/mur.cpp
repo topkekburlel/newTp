@@ -15,10 +15,12 @@ Mur::Mur(Case c0, Case c1) {
   } else {
     index_ = cref.index() ;
   }
+  app_tuile = c0.app_tuile;
 }
 
-Mur::Mur(unsigned int index) : index_(index) {
+Mur::Mur(unsigned int index, int t) : index_(index) {
   assert(index < 24) ;
+  app_tuile = t;
 }
 
 unsigned int Mur::index() const {
@@ -33,16 +35,16 @@ Case Mur::operator[](unsigned int i) const {
   assert(i < 2) ;
   if(index_ < 12) { //mur horizontal
     if(i == 0) {
-      return Case(index_) ;
+      return Case(index_, app_tuile) ;
     } else {
-      return Case(index_ + 4) ;
+      return Case(index_ + 4, app_tuile) ;
     }
   } else { //mur vertical
     unsigned int base = index_ - 12 ;
     if(i == 0) {
-      return Case((base >> 2) + ((base & 3) << 2)) ;
+      return Case((base >> 2) + ((base & 3) << 2), app_tuile) ;
     } else {
-      return Case((base >> 2) + ((base & 3) << 2) + 1) ;
+      return Case((base >> 2) + ((base & 3) << 2) + 1, app_tuile) ;
     }
   }
 }

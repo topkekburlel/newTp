@@ -13,6 +13,7 @@ Case::Case(unsigned int l, unsigned int c, int t) {
 	type = RIEN;
 	representante = this;
 	app_tuile = t;
+	nbArete = 0;
 /*	ptrHaut = nullptr;
 	ptrBas = nullptr;
 	ptrGauche = nullptr;
@@ -25,6 +26,7 @@ Case::Case(unsigned int index, int t) : index_(index) {
 	type = RIEN;
 	representante = this;
 	app_tuile = t;
+	nbArete = 0;
 /*	ptrHaut = nullptr;
 	ptrBas = nullptr;
 	ptrGauche = nullptr;
@@ -43,28 +45,28 @@ Case Case::haut() const {
 	if(index_ < 4) {
 		throw std::domain_error("la case n'a pas de voisine haute") ;
 	}
-	return Case(index_ - 4);
+	return Case(index_ - 4, app_tuile);
 }
 
 Case Case::bas() const {
 	if(index_ > 11) {
 		throw std::domain_error("la case n'a pas de voisine basse") ;
 	}
-	return Case(index_ + 4) ;
+	return Case(index_ + 4, app_tuile) ;
 }
 
 Case Case::gauche() const {
 	if(index_%4 == 0) {
 		throw std::domain_error("la case n'a pas de voisine gauche") ;
 	}
-	return Case(index_ - 1) ;
+	return Case(index_ - 1, app_tuile) ;
 }
 
 Case Case::droite() const {
 	if(index_%4 == 3) {
 		throw std::domain_error("la case n'a pas de voisine droite") ;
 	}
-	return Case(index_ + 1) ;
+	return Case(index_ + 1, app_tuile) ;
 }
 /*
 void Case::setHaut(Case * c) {
@@ -155,9 +157,9 @@ Case Case::tourne(int rotation) const {
 		c = 3 - c;
 	}
 	if(rotation & 1) {
-		return Case(4 * c + l);
+		return Case(4 * c + l, app_tuile);
 	} else {
-		return Case(4 * l + c);
+		return Case(4 * l + c, app_tuile);
 	}
 }
 

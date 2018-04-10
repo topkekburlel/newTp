@@ -29,13 +29,14 @@ class Tuile {
     Tuile* left;
 
     Tuile();
+    Tuile(int id_);
 
     //indique si deux cases voisines sont separees par un mur
     bool mur(Mur m) const ;
 
     void union_site(Case * site1, Case * site2);
 
-    bool verification();
+    bool verification(Case* c);
 
     bool union_mur(Mur mur);
 
@@ -72,16 +73,16 @@ class Tuile {
 
 
 	//on casse les murs comme ca
-	void casse_murDroite(Case * c);
+/*	void casse_murDroite(Case * c);
 	void casse_murGauche(Case * c);
 	void casse_murHaut(Case * c);
 	void casse_murBas(Case * c);
-
+*/
     //affichage
     friend std::ostream& operator<<(std::ostream& out, const Tuile& t) ;
 
-    void Tuile::arete_tuile();
-    void Tuile::connecte_tuile_arete(case* c);
+    void arete_tuile();
+    void connecte_tuile_arete(Case* c);
 
   private :
 

@@ -6,14 +6,14 @@
 class arete
 {
     public:
-        int direction
+        int direction;
         int taille;
         int tuile;
         int position;
 
-        arete::arete();
-        arete::arete(int direction_, int taille_, int tuile_, int pos_);
-        arete::~arete();
+        arete();
+        arete(int direction_, int taille_, int tuile_, int pos_);
+        ~arete();
 
     protected:
 

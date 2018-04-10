@@ -11,9 +11,8 @@ SOURCES += tuile.cpp
 SOURCES += direction.cpp
 SOURCES += jeu.cpp
 SOURCES += arete.cpp
-SOURCES += Plateau.cpp
 SOURCES += joueur.cpp
-
+SOURCES += Plateau.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
