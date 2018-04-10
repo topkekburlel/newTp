@@ -46,12 +46,25 @@ class Tuile {
 
 	//set la tuile normale
 	void setTuileNormale();
+	
+	//set une tuile avec UN objectif
+	void setTuileObjectif(int cc);
+	
+	//set une tuile avec UNE sortie
+	void setTuileSortie(int cc);
 
 	// set des portes pour les tuiles
 	void setPortes(bool depart);
 
 	//set les cases de depart des joueurs pour la tuile de depart
 	void setDepart();
+	
+	//set les sites sur la case
+	void setSite();
+	
+	void setSorties(int cc);
+	
+	void setObjectifs(int cc);
 
 	// Change la couleur du Background
 	const char* returnCouleurBG(Case * c) const;

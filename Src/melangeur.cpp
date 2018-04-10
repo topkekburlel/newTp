@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <cassert>
+#include <ctime>
 namespace MMaze {
 
 Melangeur::Melangeur(int octets) {
@@ -31,6 +32,7 @@ void Melangeur::inserer(const void* elem) {
 void Melangeur::retirer(void* elem) {
 	if(nbElements > 1)
 	{
+		srand((int)time(0));
 		char* tempRand = tab + (rand()%nbElements)*tailleDonnee ;
 		memcpy(elem, tempRand, tailleDonnee); // memcpy(destination, source (ce qui doit etre copie), nombre de bytes a copier)
 		memcpy(tempRand, accesDernierElem(nbElements-1), tailleDonnee);

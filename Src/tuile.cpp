@@ -4,6 +4,7 @@
 #include <cassert>
 #include <iostream>
 #include <cstdlib>
+#include <ctime>
 
 namespace MMaze {
 
@@ -25,7 +26,6 @@ Tuile::Tuile() {
         tabMurs[j] = new Mur(j);
 		nbMurs += 1;
     }
-	setTuileDepart();
 }
 
 bool Tuile::mur(Mur m) const {
@@ -184,17 +184,14 @@ void Tuile::setTuileDepart() {
 	//PORTES
 	setPortes(tuile_depart);
 
-	// DEPART
+	// DEPARTS
 	setDepart();
-<<<<<<< HEAD
-=======
-
->>>>>>> 6351520dd3e766015272c755beda1d482b77f14e
+	
 	// UNION FIND
 	for(int j = 0;j<indexSites;j++) {
 		union_site(tabSites[j],tabSites[0]);
 	}
-	/* look up for representante
+	/* look up for representantes
 	for(int j = 0;j<indexSites;j++) {
 		std::cout<<"tabSites["<<j<<"]->getRepresentante() == "<<tabSites[j]->getRepresentante()<<std::endl;
 	}
@@ -204,8 +201,43 @@ void Tuile::setTuileDepart() {
 void Tuile::setTuileNormale() {
 	tuile_depart = false;
 
-	//PORTES A MODIFIER
+	//PORTES
 	setPortes(tuile_depart);
+	
+	// UNION FIND
+	for(int j = 0;j<indexSites;j++) {
+		union_site(tabSites[j],tabSites[0]);
+	}
+}
+
+void Tuile::setTuileObjectif(int cc) {
+	tuile_depart = false;
+
+	//PORTES
+	setPortes(tuile_depart);
+	
+	//OBJECTIFS
+	setObjectifs(cc);
+	
+	// UNION FIND
+	for(int j = 0;j<indexSites;j++) {
+		union_site(tabSites[j],tabSites[0]);
+	}
+}
+
+void Tuile::setTuileSortie(int cc) {
+	tuile_depart = false;
+
+	//PORTES
+	setPortes(tuile_depart);
+	
+	//SORTIES
+	setSorties(cc);
+	
+	// UNION FIND
+	for(int j = 0;j<indexSites;j++) {
+		union_site(tabSites[j],tabSites[0]);
+	}
 }
 
 void Tuile::setPortes(bool depart) {
@@ -213,8 +245,8 @@ void Tuile::setPortes(bool depart) {
 	int intCouleurHasard;
 	enum Couleur cc;
 	int tabPortes[4] = {2,4,11,13};		// tableau des index des sites de type ACCES
+	Melangeur mel = Melangeur(sizeof(int));
 	if(depart) {
-		Melangeur mel = Melangeur(sizeof(int));
 		for(int i = 0; i<4; i++) {
 			mel.inserer(&i);				// on insere 4 int dans le melangeur qui representera nos couleurs
 		}
@@ -238,13 +270,47 @@ void Tuile::setPortes(bool depart) {
 					std::cerr<<"Erreur : mauvaise couleur tiree pour une porte, iteration k = "<<k<<" et intCouleurHasard = "<<intCouleurHasard<<std::endl;
 					break;
 			}
-			/*
-			Case(index).setColor(cc);
-			std::cout<<Case(index).index()<<" Set color a la valeur : "<<Case(index).getCouleur()<<" grace a cc = "<<cc<<std::endl;
-			Case(index).setType(ACCES);
-			*/
 			tabCases[index]->setColor(cc);
 			tabCases[index]->setType(ACCES);
+			tabSites[indexSites] = tabCases[index];
+			indexSites += 1;
+		}
+	} else {
+		for(int i = 0; i<4; i++) {
+			mel.inserer(&i);		// on insere 4 int dans le melangeur qui representera nos couleurs
+		}
+		srand((int)time(0)); 		// sinon la generation de "random" est nulle
+		int uneOuDeuxSorties = (rand()%3)+1; // 1,2 ou 3 sortie de couleur
+		
+		/* on place l'entree de la tuile */
+		mel.retirer(&intCouleurHasard); // on reutilise "intCouleurHasard" pour tirer au sort une case ACCES
+		index = tabPortes[intCouleurHasard];
+		tabCases[index]->setType(ACCES);
+		tabSites[indexSites] = tabCases[index];
+		indexSites += 1;
+		
+		for(int i = 1;i<=uneOuDeuxSorties;i++) {
+			mel.retirer(&intCouleurHasard);
+			index = tabPortes[intCouleurHasard];
+			switch(intCouleurHasard) {
+				case 1:
+					cc = JAUNE;
+					break;
+				case 2:
+					cc = ORANGE;
+					break;
+				case 3:
+					cc = VERT;
+					break;
+				case 0:
+					cc = VIOLET;
+					break;
+				default:
+					std::cerr<<"Erreur : mauvaise couleur tiree pour une porte, iteration i = "<<i<<" et intCouleurHasard = "<<intCouleurHasard<<std::endl;
+					break;
+			}
+			tabCases[index]->setType(ACCES);
+			tabCases[index]->setColor(cc);
 			tabSites[indexSites] = tabCases[index];
 			indexSites += 1;
 		}
@@ -287,6 +353,67 @@ void Tuile::setDepart() {
 		tabSites[indexSites] = tabCases[index];
 		indexSites += 1;
 	}
+}
+
+
+void Tuile::setObjectifs(int cc) {
+	srand((int)time(0)); 		// sinon la generation de "random" est nulle
+	int index = (rand()%3)+1;					/*									*/
+	while(tabCases[index]->getType() != RIEN) { 	/* generation d'un index au hasard	*/
+		index = (index+1)%16;					/*									*/
+	}											/* 									*/
+	enum Couleur coul;
+	switch(cc) {
+		case 1:
+			coul = JAUNE;
+			break;
+		case 2:
+			coul = ORANGE;
+			break;
+		case 3:
+			coul = VERT;
+			break;
+		case 0:
+			coul = VIOLET;
+			break;
+		default:
+			std::cerr<<"Erreur : mauvais site tiree"<<std::endl;
+			break;
+	}
+	tabCases[index]->setColor(coul);
+	tabCases[index]->setType(OBJECTIF);
+	tabSites[indexSites] = tabCases[index];
+	indexSites += 1;
+}
+
+void Tuile::setSorties(int cc) {
+	srand((int)time(0)); 		// sinon la generation de "random" est nulle
+	int index = (rand()%3)+1;					/*									*/
+	while(tabCases[index]->getType() != RIEN) { 	/* generation d'un index au hasard	*/
+		index = (index+1)%16;					/*									*/
+	}											/* 									*/
+	enum Couleur coul;
+	switch(cc) {
+		case 1:
+			coul = JAUNE;
+			break;
+		case 2:
+			coul = ORANGE;
+			break;
+		case 3:
+			coul = VERT;
+			break;
+		case 0:
+			coul = VIOLET;
+			break;
+		default:
+			std::cerr<<"Erreur : mauvais site tiree"<<std::endl;
+			break;
+	}
+	tabCases[index]->setColor(coul);
+	tabCases[index]->setType(OBJECTIF);
+	tabSites[indexSites] = tabCases[index];
+	indexSites += 1;
 }
 
 const char* Tuile::returnCouleurBG(Case * c) const {
