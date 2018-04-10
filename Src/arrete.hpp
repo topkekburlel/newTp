@@ -15,6 +15,8 @@ class Arrete
         
         int taille;
 		std::vector<Case*> vectorArrete;
+		enum Direction dir;
+		
 
 		Arrete();
 		Arrete(Case * ca, enum Direction d);

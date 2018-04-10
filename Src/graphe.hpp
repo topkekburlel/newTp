@@ -5,11 +5,11 @@
 #include "case.hpp"
 #include "arrete.hpp"
 
-#define MAX_ARRETES 200
+#define MAX_ARRETES 300
 
 
 namespace MMaze {
-	
+
 class Graphe
 {
     public:
