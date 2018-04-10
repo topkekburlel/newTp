@@ -9,9 +9,10 @@ namespace MMaze {
 class joueur
 {
     public:
-        Couleur c;
+        enum Couleur color_j;
         Tuile* tuile_act;
         int position;
+        int status;
         Plateau* plat_jeu;
 
         joueur();
@@ -20,6 +21,8 @@ class joueur
 
         // gère le déplacement d'un joueur
         void mouvement(int tuile, int pos);
+
+        Case* trouve_site();
 
     protected:
 
