@@ -26,7 +26,6 @@ Tuile::Tuile() {
         tabMurs[j] = new Mur(j, 0);
 		nbMurs += 1;
     }
-	setTuileDepart();
 }
 
 Tuile::Tuile(int id_) {
@@ -48,7 +47,6 @@ Tuile::Tuile(int id_) {
         tabMurs[j] = new Mur(j, id);
 		nbMurs += 1;
     }
-	setTuileDepart();
 }
 
 bool Tuile::mur(Mur m) const {
@@ -499,8 +497,8 @@ void Tuile::afficher_horizontal(std::ostream& out, unsigned int i) const {
 	} else {
 		out << "+";
 		for(unsigned int m = 0; m < 4; ++m) {
-			Case up = Case(i-1, m);
-			Case down = Case(i, m);
+			Case up = Case(i-1, m, id);
+			Case down = Case(i, m, id);
 			if(mur(Mur(up, down))) {
 				out << "---+";
 			} else {
@@ -517,8 +515,8 @@ void Tuile::afficher_vertical(std::ostream& out, unsigned int i) const {
 	for(unsigned int m = 0; m < 4; ++m) {
 		out << "   ";
 		if(m < 3) {
-			Case left = Case(i, m);
-			Case right = Case(i, m+1);
+			Case left = Case(i, m, id);
+			Case right = Case(i, m+1, id);
 			if(m < 3 && mur(Mur(left, right))) {
 				out << "|";
 			} else {
