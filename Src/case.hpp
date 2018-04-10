@@ -3,6 +3,7 @@
 
 #include "direction.hpp"
 #include "couleurs.hpp"
+//#include "arrete.hpp"
 
 namespace MMaze {
 	enum Types {
@@ -90,7 +91,7 @@ class Case {
 		enum Couleur color;
 		enum Types type;
 		Case * representante;
-		arete* tab_access[14];
+		//Arrete * tab_access[14];
 
 };
 
