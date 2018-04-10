@@ -11,6 +11,7 @@ SOURCES += tuile.cpp
 SOURCES += direction.cpp
 SOURCES += jeu.cpp
 SOURCES += arrete.cpp
+SOURCES += graphe.cpp
 
 OBJECTS = $(SOURCES:.cpp=.o)
 
