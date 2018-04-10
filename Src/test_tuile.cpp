@@ -10,7 +10,8 @@ using namespace MMaze ;
 
 int main() {
 
-  Tuile t ;
+  Tuile t(0) ;
+  
   std::cout << t << std::endl ;
 
   //utilisation des couleurs

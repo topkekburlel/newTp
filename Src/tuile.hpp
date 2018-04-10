@@ -73,11 +73,11 @@ class Tuile {
 
 
 	//on casse les murs comme ca
-/*	void casse_murDroite(Case * c);
+	void casse_murDroite(Case * c);
 	void casse_murGauche(Case * c);
 	void casse_murHaut(Case * c);
 	void casse_murBas(Case * c);
-*/
+
     //affichage
     friend std::ostream& operator<<(std::ostream& out, const Tuile& t) ;
 

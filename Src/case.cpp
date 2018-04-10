@@ -14,10 +14,6 @@ Case::Case(unsigned int l, unsigned int c, int t) {
 	representante = this;
 	app_tuile = t;
 	nbArete = 0;
-/*	ptrHaut = nullptr;
-	ptrBas = nullptr;
-	ptrGauche = nullptr;
-	ptrDroite = nullptr;*/
 }
 
 Case::Case(unsigned int index, int t) : index_(index) {
@@ -27,10 +23,6 @@ Case::Case(unsigned int index, int t) : index_(index) {
 	representante = this;
 	app_tuile = t;
 	nbArete = 0;
-/*	ptrHaut = nullptr;
-	ptrBas = nullptr;
-	ptrGauche = nullptr;
-	ptrDroite = nullptr;*/
 }
 
 unsigned int Case::index() const {
@@ -68,47 +60,7 @@ Case Case::droite() const {
 	}
 	return Case(index_ + 1, app_tuile) ;
 }
-/*
-void Case::setHaut(Case * c) {
-	ptrHaut = c;
-}
-void Case::setBas(Case * c) {
-	ptrBas = c;
-}
 
-void Case::setGauche(Case * c) {
-	ptrGauche = c;
-}
-
-void Case::setDroite(Case * c) {
-	ptrDroite = c;
-}
-
-Case * Case::getHaut() {
-	return ptrHaut;
-}
-Case * Case::getBas() {
-	return ptrBas;
-}
-
-Case * Case::getGauche() {
-	return ptrGauche;
-}
-
-Case * Case::getDroite() {
-	return ptrDroite;
-}
-
-Case Case::voisine(Direction d) const {
-	switch(d) {
-		case BAS : return bas();
-		case DROITE : return droite();
-		case HAUT : return haut();
-		case GAUCHE : return gauche();
-		default : assert(false);
-	}
-}
-*/
 void Case::setColor(enum Couleur c) {
 	color = c;
 }

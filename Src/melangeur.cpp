@@ -5,6 +5,7 @@
 #include <cstring>
 #include <cassert>
 #include <ctime>
+
 namespace MMaze {
 
 Melangeur::Melangeur(int octets) {
@@ -49,7 +50,6 @@ void Melangeur::vider() {
 	if(tab != NULL)
 	{
 		free(tab);
-		//tab = NULL;
 	}
 	tailleMax = nbElements = 0;
 }

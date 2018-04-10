@@ -3,7 +3,7 @@
 
 
 namespace MMaze {
-class arete
+class Arete
 {
     public:
         int direction;
@@ -11,9 +11,8 @@ class arete
         int tuile;
         int position;
 
-        arete();
-        arete(int direction_, int taille_, int tuile_, int pos_);
-        ~arete();
+        Arete();
+        Arete(int direction_, int taille_, int tuile_, int pos_);
 
     protected:
 

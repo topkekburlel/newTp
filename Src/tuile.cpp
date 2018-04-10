@@ -82,52 +82,46 @@ void Tuile::union_site(Case * site1, Case * site2) {
 			s1 = tabCases[s1->index()+1];
 			s1->setRepresentante(tmpRepresentante);
 			// et on casse le mur de gauche
-			//casse_murGauche(s1);
+			casse_murGauche(s1);
 		} else if(currDistanceX > 0) { // s1 est sur la droite(x) de s2
 			// un pas a gauche
 			tmpRepresentante = s1;
 			s1 = tabCases[s1->index()-1];
 			s1->setRepresentante(tmpRepresentante);
 			// et on casse le mur de droite
-			//casse_murDroite(s1);
+			casse_murDroite(s1);
 		} else if(currDistanceY > 0) { // s1 est en bas(y) de s2
 			// un pas en haut
 			tmpRepresentante = s1;
 			s1 = tabCases[s1->index()-4];
 			s1->setRepresentante(tmpRepresentante);
 			// et on casse le mur d'en bas
-			//casse_murBas(s1);
+			casse_murBas(s1);
 		} else if(currDistanceY < 0) { // s1 est en haut(y) de s2
 			// un pas en bas
 			tmpRepresentante = s1;
 			s1 = tabCases[s1->index()+4];
 			s1->setRepresentante(tmpRepresentante);
 			// et on casse le mur d'en haut
-			//casse_murHaut(s1);
+			casse_murHaut(s1);
 		} else {
 			break;
 		}
 	}
 }
-/*
+
 void Tuile::casse_murDroite(Case * c) {
 	int colonneCase = c->index()%4;
 	int ligneCase = c->index()/4;
 	switch(colonneCase) {
 		case 0:
 			tabMurs[ligneCase+12] = nullptr;
-			c->setDroite(tabCases[c->index()+1]);  // pas de modulo car on sait qu'on est pas au bout de la tuile ici
-			tabCases[c->index()+1]->setGauche(c);
 			break;
 		case 1:
 			tabMurs[ligneCase+16] = nullptr;
-			c->setDroite(tabCases[c->index()+1]);  // pas de modulo car on sait qu'on est pas au bout de la tuile ici
-			tabCases[c->index()+1]->setGauche(c);
 			break;
 		case 2:
 			tabMurs[ligneCase+20] = nullptr;
-			c->setDroite(tabCases[c->index()+1]);  // pas de modulo car on sait qu'on est pas au bout de la tuile ici
-			tabCases[c->index()+1]->setGauche(c);
 			break;
 		default:
 			std::cerr<<"Erreur : casse_murDroite == ECHEC"<<std::endl;
@@ -141,18 +135,12 @@ void Tuile::casse_murGauche(Case * c) {
 	switch(colonneCase) {
 		case 1:
 			tabMurs[ligneCase+12] = nullptr;
-			c->setGauche(tabCases[c->index()-1]);  // pas de modulo car on sait qu'on est pas au bout de la tuile ici
-			tabCases[c->index()-1]->setDroite(c);
 			break;
 		case 2:
 			tabMurs[ligneCase+16] = nullptr;
-			c->setGauche(tabCases[c->index()-1]);  // pas de modulo car on sait qu'on est pas au bout de la tuile ici
-			tabCases[c->index()-1]->setDroite(c);
 			break;
 		case 3:
 			tabMurs[ligneCase+20] = nullptr;
-			c->setGauche(tabCases[c->index()-1]);  // pas de modulo car on sait qu'on est pas au bout de la tuile ici
-			tabCases[c->index()-1]->setDroite(c);
 			break;
 		default:
 			std::cerr<<"Erreur : casse_murGauche == ECHEC"<<std::endl;
@@ -163,8 +151,6 @@ void Tuile::casse_murGauche(Case * c) {
 void Tuile::casse_murBas(Case * c) {
 	if(c->index()<12) {
 		tabMurs[c->index()] = nullptr;
-		c->setBas(tabCases[c->index()+4]);  	// pas de modulo car on sait qu'on est pas au bout de la tuile ici
-		tabCases[c->index()-1]->setHaut(c);
 		return;
 	}
 	std::cerr<<"Erreur : casse_murBas == ECHEC"<<std::endl;
@@ -173,43 +159,16 @@ void Tuile::casse_murBas(Case * c) {
 void Tuile::casse_murHaut(Case * c) {
 	if(c->index()>3) {
 		tabMurs[c->index()-4] = nullptr;
-		c->setHaut(tabCases[c->index()-4]);  	// pas de modulo car on sait qu'on est pas au bout de la tuile ici
-		tabCases[c->index()-1]->setBas(c);
 		return;
 	}
 	std::cerr<<"Erreur : casse_murHaut == ECHEC"<<std::endl;
 }
 
 
-
-bool Tuile::verification(){
-	Case * r = rec_representante(tabVraiSites[0])
-	for(i=1; i<currNbSites; i++){
-		if(rec_representante(tabVraiSites[i]) != r)
-			return false;
-	}
-	return true;
+bool Tuile::verification(Case* c){
+	Case * r = rec_representante(tabSites[0]);
+	return(rec_representante(c) != r);
 }
-
-bool Tuile::union_mur(Mur mur){
-	site0 = rec_representante(tabSites[operator[](1).index_]);
-	site1 = rec_representante(tabSites[operator[](0).index_]);
-	if(site0 != site1){
-		if(site0->hauteur < site1->hauteur){
-			site0->representante = site1;
-		}
-		else{
-			if(site0->hauteur == site1->hauteur){
-				site0->hauteur = site0->hauteur + 1;
-			}
-			site1->representante = site0;
-		}
-		tabMurs[mur->index_] = NULL;
-		return verification();
-	}
-	return false;
-}
-*/
 
 bool Tuile::accessible(Case c) const {
 	/* remplacez ce code */
@@ -501,8 +460,8 @@ void Tuile::afficher_horizontal(std::ostream& out, unsigned int i) const {
 	} else {
 		out << "+";
 		for(unsigned int m = 0; m < 4; ++m) {
-			Case up = Case(i-1, m);
-			Case down = Case(i, m);
+			Case up = Case(i-1, m, id);
+			Case down = Case(i, m, id);
 			if(mur(Mur(up, down))) {
 				out << "---+";
 			} else {
@@ -519,8 +478,8 @@ void Tuile::afficher_vertical(std::ostream& out, unsigned int i) const {
 	for(unsigned int m = 0; m < 4; ++m) {
 		out << "   ";
 		if(m < 3) {
-			Case left = Case(i, m);
-			Case right = Case(i, m+1);
+			Case left = Case(i, m, id);
+			Case right = Case(i, m+1, id);
 			if(m < 3 && mur(Mur(left, right))) {
 				out << "|";
 			} else {
@@ -543,7 +502,7 @@ std::ostream& operator<< (std::ostream& out, const Tuile& t) {
   return out ;
 }
 
-void Tuile::arete_tuile(){
+void Tuile::arete_tuile() {
     bool b = false;
 	Case * c;
 	int j = 1;
@@ -551,9 +510,9 @@ void Tuile::arete_tuile(){
 		if(verification(tabCases[i])){
 			b = true;
 			c = tabCases[i];
-			while(c->index_ > 3 && b){
+			while(c->index_ > 3 && b) {
 				if(verification(tabCases[c->index_ - 4]) && tabMurs[c->index_ - 4] == nullptr){
-					c->tab_access[c->nbArete] = new arete(HAUT, j, c->app_tuile, c->index_ - 4);
+					c->tab_access[c->nbArete] = new Arete(HAUT, j, c->app_tuile, c->index_ - 4);
 					c->nbArete = c->nbArete + 1;
 					j = j+1;
 					c = tabCases[c->index_ - 4];
@@ -567,7 +526,7 @@ void Tuile::arete_tuile(){
 			j = 1;
 			while((c->index_ % 4) < 3 && b){
 				if(verification(tabCases[c->index_ + 1]) && tabMurs[c->index_ + 1] == nullptr){
-					c->tab_access[c->nbArete] = new arete(DROITE, j,  c->app_tuile, c->index_ + 1);
+					c->tab_access[c->nbArete] = new Arete(DROITE, j,  c->app_tuile, c->index_ + 1);
 					c->nbArete = c->nbArete + 1;
 					j = j+1;
 					c = tabCases[c->index_ + 1];
@@ -581,7 +540,7 @@ void Tuile::arete_tuile(){
 			j = 1;
 			while(c->index_ < 12 && b){
 				if(verification(tabCases[c->index_ + 4]) && tabMurs[c->index_ + 4] == nullptr){
-					c->tab_access[c->nbArete] = new arete(BAS, j,  c->app_tuile, c->index_ + 4);
+					c->tab_access[c->nbArete] = new Arete(BAS, j,  c->app_tuile, c->index_ + 4);
 					c->nbArete = c->nbArete + 1;
 					j = j+1;
 					c = tabCases[c->index_ + 4];
@@ -595,7 +554,7 @@ void Tuile::arete_tuile(){
 			j = 1;
 			while((c->index_ % 4) > 0 && b){
 				if(verification(tabCases[c->index_ - 1]) && tabMurs[c->index_ - 1] == nullptr){
-					c->tab_access[c->nbArete] = new arete(GAUCHE, j,  c->app_tuile, c->index_ - 1);
+					c->tab_access[c->nbArete] = new Arete(GAUCHE, j,  c->app_tuile, c->index_ - 1);
 					c->nbArete = c->nbArete + 1;
 					j = j+1;
 					c = tabCases[c->index_ - 1];
@@ -635,9 +594,9 @@ void Tuile::connecte_tuile_arete(Case* c){
 		}
 		for(i = 0; i < t1; i++){
 			for(j = 0; j < t2; j++){
-				tabCases[tab1[i]]->tab_access[tabCases[tab1[i]]->nbArete] = new arete(HAUT, (i+j+1), t->id, tab2[j]);
+				tabCases[tab1[i]]->tab_access[tabCases[tab1[i]]->nbArete] = new Arete(HAUT, (i+j+1), t->id, tab2[j]);
 				tabCases[tab1[i]]->nbArete = tabCases[tab1[i]]->nbArete + 1;
-				tabCases[tab2[j]]->tab_access[tabCases[tab2[j]]->nbArete] = new arete(BAS, (i+j+1), id, tab1[i]);
+				tabCases[tab2[j]]->tab_access[tabCases[tab2[j]]->nbArete] = new Arete(BAS, (i+j+1), id, tab1[i]);
 				tabCases[tab2[j]]->nbArete = tabCases[tab2[j]]->nbArete + 1;
 			}
 		}
@@ -661,9 +620,9 @@ void Tuile::connecte_tuile_arete(Case* c){
 		}
 		for(i = 0; i < t1; i++){
 			for(j = 0; j < t2; j++){
-				tabCases[tab1[i]]->tab_access[tabCases[tab1[i]]->nbArete] = new arete(GAUCHE, (i+j+1), t->id, tab2[j]);
+				tabCases[tab1[i]]->tab_access[tabCases[tab1[i]]->nbArete] = new Arete(GAUCHE, (i+j+1), t->id, tab2[j]);
 				tabCases[tab1[i]]->nbArete = tabCases[tab1[i]]->nbArete + 1;
-				tabCases[tab2[j]]->tab_access[tabCases[tab2[j]]->nbArete] = new arete(DROITE, (i+j+1), id, tab1[i]);
+				tabCases[tab2[j]]->tab_access[tabCases[tab2[j]]->nbArete] = new Arete(DROITE, (i+j+1), id, tab1[i]);
 				tabCases[tab2[j]]->nbArete = tabCases[tab2[j]]->nbArete + 1;
 			}
 		}
@@ -687,9 +646,9 @@ void Tuile::connecte_tuile_arete(Case* c){
 		}
 		for(i = 0; i < t1; i++){
 			for(j = 0; j < t2; j++){
-				tabCases[tab1[i]]->tab_access[tabCases[tab1[i]]->nbArete] = new arete(DROITE, (i+j+1), t->id, tab2[j]);
+				tabCases[tab1[i]]->tab_access[tabCases[tab1[i]]->nbArete] = new Arete(DROITE, (i+j+1), t->id, tab2[j]);
 				tabCases[tab1[i]]->nbArete = tabCases[tab1[i]]->nbArete + 1;
-				tabCases[tab2[j]]->tab_access[tabCases[tab2[j]]->nbArete] = new arete(GAUCHE, (i+j+1), id, tab1[i]);
+				tabCases[tab2[j]]->tab_access[tabCases[tab2[j]]->nbArete] = new Arete(GAUCHE, (i+j+1), id, tab1[i]);
 				tabCases[tab2[j]]->nbArete = tabCases[tab2[j]]->nbArete + 1;
 			}
 		}
@@ -713,9 +672,9 @@ void Tuile::connecte_tuile_arete(Case* c){
 		}
 		for(i = 0; i < t1; i++){
 			for(j = 0; j < t2; j++){
-				tabCases[tab1[i]]->tab_access[tabCases[tab1[i]]->nbArete] = new arete(BAS, (i+j+1), t->id, tab2[j]);
+				tabCases[tab1[i]]->tab_access[tabCases[tab1[i]]->nbArete] = new Arete(BAS, (i+j+1), t->id, tab2[j]);
 				tabCases[tab1[i]]->nbArete = tabCases[tab1[i]]->nbArete + 1;
-				tabCases[tab2[j]]->tab_access[tabCases[tab2[j]]->nbArete] = new arete(HAUT, (i+j+1), id, tab1[i]);
+				tabCases[tab2[j]]->tab_access[tabCases[tab2[j]]->nbArete] = new Arete(HAUT, (i+j+1), id, tab1[i]);
 				tabCases[tab2[j]]->nbArete = tabCases[tab2[j]]->nbArete + 1;
 			}
 		}

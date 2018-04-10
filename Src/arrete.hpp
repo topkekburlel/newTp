@@ -20,7 +20,6 @@ class Arrete
 
 		Arrete();
 		Arrete(Case * ca, enum Direction d);
-        //Arrete(enum Direction direction1_, Case * caseBout1_, enum Direction direction2_, Case * caseBout2_); // une arrete est un couple de Cases avec une direction
         virtual ~Arrete();
 		void ajouterCases(Case * ca);
 		void constructArrete(Case * ca, enum Direction d);
