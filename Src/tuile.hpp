@@ -44,7 +44,7 @@ class Tuile {
 	//set la tuile a tuile_depart == true;
 	void setTuileDepart();
 
-	//set la tuile normale
+	//set une tuile normale
 	void setTuileNormale();
 	
 	//set une tuile avec UN objectif
@@ -58,9 +58,6 @@ class Tuile {
 
 	//set les cases de depart des joueurs pour la tuile de depart
 	void setDepart();
-	
-	//set les sites sur la case
-	void setSite();
 	
 	void setSorties(int cc);
 	

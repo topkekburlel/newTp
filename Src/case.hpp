@@ -83,6 +83,17 @@ class Case {
 
 		int distanceXCases(Case * c);
 		int distanceYCases(Case * c);
+		
+		void setHaut(Case * c);
+		void setBas(Case * c);
+		void setGauche(Case * c);
+		void setDroite(Case * c);
+		
+		Case * getHaut();
+		Case * getBas();
+		Case * getGauche();
+		Case * getDroite();
+		
 
 	private :
 
@@ -91,7 +102,11 @@ class Case {
 		enum Couleur color;
 		enum Types type;
 		Case * representante;
-		//Arrete * tab_access[14];
+		Case * ptrHaut;
+		Case * ptrBas;
+		Case * ptrGauche;
+		Case * ptrDroite;
+		//Case * tab_pointeurVersCases[14];
 
 };
 

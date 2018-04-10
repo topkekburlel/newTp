@@ -26,6 +26,7 @@ Tuile::Tuile() {
         tabMurs[j] = new Mur(j);
 		nbMurs += 1;
     }
+	setTuileDepart();
 }
 
 bool Tuile::mur(Mur m) const {
@@ -93,12 +94,18 @@ void Tuile::casse_murDroite(Case * c) {
 	switch(colonneCase) {
 		case 0:
 			tabMurs[ligneCase+12] = nullptr;
+			c->setDroite(tabCases[c->index()+1]);  // pas de modulo car on sait qu'on est pas au bout de la tuile ici
+			tabCases[c->index()+1]->setGauche(c);
 			break;
 		case 1:
 			tabMurs[ligneCase+16] = nullptr;
+			c->setDroite(tabCases[c->index()+1]);  // pas de modulo car on sait qu'on est pas au bout de la tuile ici
+			tabCases[c->index()+1]->setGauche(c);
 			break;
 		case 2:
 			tabMurs[ligneCase+20] = nullptr;
+			c->setDroite(tabCases[c->index()+1]);  // pas de modulo car on sait qu'on est pas au bout de la tuile ici
+			tabCases[c->index()+1]->setGauche(c);
 			break;
 		default:
 			std::cerr<<"Erreur : casse_murDroite == ECHEC"<<std::endl;
@@ -112,12 +119,18 @@ void Tuile::casse_murGauche(Case * c) {
 	switch(colonneCase) {
 		case 1:
 			tabMurs[ligneCase+12] = nullptr;
+			c->setGauche(tabCases[c->index()-1]);  // pas de modulo car on sait qu'on est pas au bout de la tuile ici
+			tabCases[c->index()-1]->setDroite(c);
 			break;
 		case 2:
 			tabMurs[ligneCase+16] = nullptr;
+			c->setGauche(tabCases[c->index()-1]);  // pas de modulo car on sait qu'on est pas au bout de la tuile ici
+			tabCases[c->index()-1]->setDroite(c);
 			break;
 		case 3:
 			tabMurs[ligneCase+20] = nullptr;
+			c->setGauche(tabCases[c->index()-1]);  // pas de modulo car on sait qu'on est pas au bout de la tuile ici
+			tabCases[c->index()-1]->setDroite(c);
 			break;
 		default:
 			std::cerr<<"Erreur : casse_murGauche == ECHEC"<<std::endl;
@@ -128,6 +141,8 @@ void Tuile::casse_murGauche(Case * c) {
 void Tuile::casse_murBas(Case * c) {
 	if(c->index()<12) {
 		tabMurs[c->index()] = nullptr;
+		c->setBas(tabCases[c->index()+4]);  	// pas de modulo car on sait qu'on est pas au bout de la tuile ici
+		tabCases[c->index()-1]->setHaut(c);
 		return;
 	}
 	std::cerr<<"Erreur : casse_murBas == ECHEC"<<std::endl;
@@ -136,6 +151,8 @@ void Tuile::casse_murBas(Case * c) {
 void Tuile::casse_murHaut(Case * c) {
 	if(c->index()>3) {
 		tabMurs[c->index()-4] = nullptr;
+		c->setHaut(tabCases[c->index()-4]);  	// pas de modulo car on sait qu'on est pas au bout de la tuile ici
+		tabCases[c->index()-1]->setBas(c);
 		return;
 	}
 	std::cerr<<"Erreur : casse_murHaut == ECHEC"<<std::endl;

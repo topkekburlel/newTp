@@ -48,8 +48,9 @@ int main() {
 			couleurSorties.inserer(&i);			// dans l'enum COULEUR
 	}
 	//bool enJeu = true;
-	Tuile * tuileDeDepart = new Tuile();
+	Tuile * tuileDeDepart = new Tuile();  			// setup de la tuile de depart
 	tuileDeDepart->setTuileDepart();
+	
 	for (int i = 1; i < 5; i++){ 					// 4 tuiles avec un objectif
 		couleurObjectifs.retirer(&tempCouleur);
 		tempTuile = new Tuile();
@@ -68,7 +69,6 @@ int main() {
 		melTuiles.inserer(tempTuile);
 	}
 	
-	std::cout<<"FINI"<<std::endl;
 	/*
 	tabJoueur[0] = new Joueur(JAUNE);
 	tabJoueur[1] = new Joueur(VERT);
