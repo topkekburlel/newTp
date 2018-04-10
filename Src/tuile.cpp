@@ -543,4 +543,178 @@ std::ostream& operator<< (std::ostream& out, const Tuile& t) {
   return out ;
 }
 
+void Tuile::arete_tuile(){
+    bool b = false;
+	case * c;
+	int j = 1;
+	for (i = 0; i > 16; i++){
+		if(verification(tab_cases[i]){
+			b = true;
+			c = tab_cases[i]
+			while(c->index_ > 3 && b = true){
+				if(verification(tabCases[c->index_ - 4) && tabMurs[c->index_ - 4] == nullptr){
+					c->tab_access[c->nbArete] = new Arete(HAUT, j, c->app_tuile, c->index_ - 4)
+					c->nbArete = c->nbArete = 1;
+					j = j+1;
+					c = tab_cases[c->index_ - 4];
+				}
+				else{
+					b = false;
+				}
+			}
+			b = true;
+			c = tab_cases[i]
+			j = 1;
+			while((c->index_ % 4) < 3 && b = true){
+				if(verification(tabCases[c->index_ + 1) && tabMurs[c->index_ + 1] == nullptr){
+					c->tab_access[c->nbArete] = new Arete(DROITE, j,  c->app_tuile, c->index_ + 1)
+					c->nbArete = c->nbArete = 1;
+					j = j+1;
+					c = tab_cases[c->index_ + 1];
+				}
+				else{
+					b = false;
+				}
+			}
+			b = true;
+			c = tab_cases[i]
+			j = 1;
+			while(c->index_ < 12 && b = true){
+				if(verification(tabCases[c->index_ + 4) && tabMurs[c->index_ + 4] == nullptr){
+					c->tab_access[c->nbArete] = new Arete(BAS, j,  c->app_tuile, c->index_ + 4)
+					c->nbArete = c->nbArete = 1;
+					j = j+1;
+					c = tab_cases[c->index_ + 4];
+				}
+				else{
+					b = false;
+				}
+			}
+			b = true;
+			c = tab_cases[i]
+			j = 1;
+			while((c->index_ % 4) > 0 && b = true){
+				if(verification(tabCases[c->index_ - 1) && tabMurs[c->index_ - 1] == nullptr){
+					c->tab_access[c->nbArete] = new Arete(GAUCHE, j,  c->app_tuile, c->index_ - 1)
+					c->nbArete = c->nbArete = 1;
+					j = j+1;
+					c = tab_cases[c->index_ - 1];
+				}
+				else{
+					b = false;
+				}
+			}
+		}
+	}
+}
+
+void Tuile::connecte_tuile_arete(case* c){
+	case* d;
+	case* tab1[4];
+	case* tab2[4];
+	int t1 = 1;
+	int t2 = 1;
+	if(c->index_ == 2){
+		d = up->tabCases[13];
+		tab1[0] = c;
+		tab2[0] = d;
+		for(i=0; i<c->nbArete; i++){
+			if(c->tab_access[i]->direction == BAS){
+				tab1[t1] = c->tab_access[i]->dest;
+				t1 = t1 + 1;
+			}
+		}
+		for(i=0; i<d->nbArete; i++){
+			if(c->tab_access[i]->direction == HAUT){
+				tab2[t2] = d->tab_access[i]->dest;
+				t2 = t2 + 1;
+			}
+		}
+		for(i = 0; i < t1; i++){
+			for(j = 0; j < t2; j++){
+				tab1[i]->tab_access[tab1[i]->nbArete] = new Arete(HAUT, (i+j+1), tab2[j]->tuile, tab2[j]->id);
+				tab1[i]->nbArete = tab1[i]->nbArete + 1;
+				tab2[j]->tab_access[tab2[j]->nbArete] = new Arete(BAS, (i+j+1), tab1[i]->tuile, tab1[i]->id);
+				tab2[j]->nbArete = tab2[j]->nbArete + 1;
+			}
+		}
+	}
+	if(c->index_ == 4){
+		d = left->tabCases[11];
+		tab1[0] = c;
+		tab2[0] = d;
+		for(i=0; i<c->nbArete; i++){
+			if(c->tab_access[i]->direction == DROITE){
+				tab1[t1] = c->tab_access[i]->dest;
+				t1 = t1 + 1;
+			}
+		}
+		for(i=0; i<d->nbArete; i++){
+			if(c->tab_access[i]->direction == GAUCHE){
+				tab2[t2] = d->tab_access[i]->dest;
+				t2 = t2 + 1;
+			}
+		}
+		for(i = 0; i < t1; i++){
+			for(j = 0; j < t2; j++){
+				tab1[i]->tab_access[tab1[i]->nbArete] = new Arete(GAUCHE, (i+j+1), tab2[j]->tuile, tab2[j]->id);
+				tab1[i]->nbArete = tab1[i]->nbArete + 1;
+				tab2[j]->tab_access[tab2[j]->nbArete] = new Arete(DROITE, (i+j+1), tab1[i]->tuile, tab1[i]->id);
+				tab2[j]->nbArete = tab2[j]->nbArete + 1;
+			}
+		}
+	}
+	if(c->index_ == 11){
+		d = right->tabCases[4];
+		tab1[0] = c;
+		tab2[0] = d;
+		for(i=0; i<c->nbArete; i++){
+			if(c->tab_access[i]->direction == GAUCHE){
+				tab1[t1] = c->tab_access[i]->dest;
+				t1 = t1 + 1;
+			}
+		}
+		for(i=0; i<d->nbArete; i++){
+			if(c->tab_access[i]->direction == DROITE){
+				tab2[t2] = d->tab_access[i]->dest;
+				t2 = t2 + 1;
+			}
+		}
+		for(i = 0; i < t1; i++){
+			for(j = 0; j < t2; j++){
+				tab1[i]->tab_access[tab1[i]->nbArete] = new Arete(DROITE, (i+j+1), tab2[j]->tuile, tab2[j]->id);
+				tab1[i]->nbArete = tab1[i]->nbArete + 1;
+				tab2[j]->tab_access[tab2[j]->nbArete] = new Arete(GAUCHE, (i+j+1), tab1[i]->tuile, tab1[i]->id);
+				tab2[j]->nbArete = tab2[j]->nbArete + 1;
+			}
+		}
+	}
+	if(c->index_ == 13){
+		d = up->tabCases[2];
+		tab1[0] = c;
+		tab2[0] = d;
+		for(i=0; i<c->nbArete; i++){
+			if(c->tab_access[i]->direction == HAUT){
+				tab1[t1] = c->tab_access[i]->dest;
+				t1 = t1 + 1;
+			}
+		}
+		for(i=0; i<d->nbArete; i++){
+			if(c->tab_access[i]->direction == BAS){
+				tab2[t2] = d->tab_access[i]->dest;
+				t2 = t2 + 1;
+			}
+		}
+		for(i = 0; i < t1; i++){
+			for(j = 0; j < t2; j++){
+				tab1[i]->tab_access[tab1[i]->nbArete] = new Arete(BAS, (i+j+1), tab2[j]->tuile, tab2[j]->id);
+				tab1[i]->nbArete = tab1[i]->nbArete + 1;
+				tab2[j]->tab_access[tab2[j]->nbArete] = new Arete(HAUT, (i+j+1), tab1[i]->tuile, tab1[i]->id);
+				tab2[j]->nbArete = tab2[j]->nbArete + 1;
+			}
+		}
+	}
+}
+
+
 } //end of namespace MMaze

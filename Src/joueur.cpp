@@ -19,10 +19,8 @@ joueur::~joueur()
     tuile_act = nullptr;
 }
 
-joueur::mouvement()
+joueur::mouvement(int tuile, int pos)
 {
-    //gestion des graphes, toussa toussa
-
-    //
-
+    tuile_act = plat_jeu[tuile];
+    position = pos;
 }

@@ -80,6 +80,9 @@ class Tuile {
     //affichage
     friend std::ostream& operator<<(std::ostream& out, const Tuile& t) ;
 
+    void Tuile::arete_tuile();
+    void Tuile::connecte_tuile_arete(case* c);
+
   private :
 
     //affichage

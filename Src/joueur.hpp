@@ -15,7 +15,7 @@ class joueur
         virtual ~joueur();
 
         // gère le déplacement d'un joueur
-        mouvement();
+        mouvement(int tuile, int pos);
 
     protected:
 
