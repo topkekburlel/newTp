@@ -8,7 +8,7 @@ namespace MMaze {
 class joueur
 {
     public:
-        Couleur c;
+        Couleur co;
         Tuile* tuile_act;
         int position;
         int status;
