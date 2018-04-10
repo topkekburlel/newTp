@@ -3,7 +3,7 @@
 
 #include "direction.hpp"
 #include "couleurs.hpp"
-//#include "arrete.hpp"
+#include "arete.hpp"
 
 namespace MMaze {
 	enum Types {
@@ -37,12 +37,19 @@ namespace MMaze {
 class Case {
 
 	public :
+        unsigned int index_;
+		enum Couleur color;
+		enum Types type;
+		Case * representante;
+		Arete* tab_access[14];
+		int nbArete;
+        int app_tuile;
 
 		//construction depuis ligne et colonne
-		Case(unsigned int l, unsigned int c);
+		Case(unsigned int l, unsigned int c, int t);
 
 		//construction implicite depuis un entier dans [0,15], voir ci-dessus
-		explicit Case(unsigned int index);
+		explicit Case(unsigned int index, int t);
 
 		//conversion vers un entier dans [0,15], voir ci-dessus
 		unsigned int index() const ;
@@ -54,7 +61,7 @@ class Case {
 		//cases voisines par direction
 		//exception si non existante
 		Case bas() const;
-		Case droite() const;
+        Case droite() const;
 		Case haut() const;
 		Case gauche() const;
 
@@ -83,31 +90,31 @@ class Case {
 
 		int distanceXCases(Case * c);
 		int distanceYCases(Case * c);
-		
-		void setHaut(Case * c);
+
+/*		void setHaut(Case * c);
 		void setBas(Case * c);
 		void setGauche(Case * c);
 		void setDroite(Case * c);
-		
+
 		Case * getHaut();
 		Case * getBas();
 		Case * getGauche();
 		Case * getDroite();
-		
+*/
 
 	private :
 
 		//stockage sous forme d'un entier comme ci-dessus
-		unsigned int index_;
-		enum Couleur color;
-		enum Types type;
-		Case * representante;
+
+/*<<<<<<< HEAD
 		Case * ptrHaut;
 		Case * ptrBas;
 		Case * ptrGauche;
 		Case * ptrDroite;
 		//Case * tab_pointeurVersCases[14];
-
+=======
+>>>>>>> parent of 749385d... Modif Viteuf
+*/
 };
 
 } //end of namespace MMaze
