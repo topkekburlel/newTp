@@ -10,8 +10,10 @@ SOURCES += couleurs.cpp
 SOURCES += tuile.cpp
 SOURCES += direction.cpp
 SOURCES += jeu.cpp
-SOURCES += arrete.cpp
-SOURCES += graphe.cpp
+SOURCES += arete.cpp
+SOURCES += Plateau.cpp
+SOURCES += joueur.cpp
+
 
 OBJECTS = $(SOURCES:.cpp=.o)
 

@@ -1,5 +1,6 @@
 #ifndef PLATEAU_HPP
 #define PLATEAU_HPP
+#include "tuile.hpp"
 
 
 class Plateau

@@ -1,6 +1,7 @@
 #ifndef JOUEUR_HPP
 #define JOUEUR_HPP
-
+#include "Plateau.hpp"
+#include "tuile.hpp"
 
 class joueur
 {

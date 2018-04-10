@@ -3,7 +3,7 @@
 
 #include "direction.hpp"
 #include "couleurs.hpp"
-//#include "arrete.hpp"
+#include "arete.hpp"
 
 namespace MMaze {
 	enum Types {
