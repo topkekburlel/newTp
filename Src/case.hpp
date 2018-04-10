@@ -41,7 +41,7 @@ class Case {
 		enum Couleur color;
 		enum Types type;
 		Case * representante;
-		arete* tab_access[14];
+		Arete* tab_access[14];
 		int nbArete;
         int app_tuile;
 

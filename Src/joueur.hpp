@@ -8,17 +8,17 @@ namespace MMaze {
 class joueur
 {
     public:
-        couleur c;
-        tuile* tuile_act;
+        Couleur c;
+        Tuile* tuile_act;
         int position;
         Plateau* plat_jeu;
 
         joueur();
-        joueur(int i, tuile* depart, Plateau* plateau);
+        joueur(int i, Tuile* depart, Plateau* plateau);
         virtual ~joueur();
 
         // gère le déplacement d'un joueur
-        mouvement(int tuile, int pos);
+        void mouvement(int tuile, int pos);
 
     protected:
 

@@ -9,11 +9,11 @@ joueur::joueur()
 	c = AUCUNE;
 }
 
-joueur::joueur(int i, tuile* depart){
+joueur::joueur(int i, Tuile* depart, Plateau* plateau){
     plat_jeu = plateau;
 	tuile_act = depart;
 	position = 1 + 4*(i/2) + (i%2);
-	c = tabCases[position]->color;
+	c = tuile_act->tabCases[position]->color;
 }
 
 joueur::~joueur()
@@ -21,9 +21,9 @@ joueur::~joueur()
     tuile_act = nullptr;
 }
 
-joueur::mouvement(int tuile, int pos)
+void joueur::mouvement(int tuile, int pos)
 {
-    tuile_act = plat_jeu[tuile];
+    tuile_act = plat_jeu->tab_tuile[tuile];
     position = pos;
 }
 }
