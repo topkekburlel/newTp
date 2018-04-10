@@ -6,27 +6,31 @@
 
 namespace MMaze {
 
-Case::Case(unsigned int l, unsigned int c) {
+Case::Case(unsigned int l, unsigned int c, int t) {
 	assert(l < 4 && c < 4);
 	index_ = 4*l + c ;
 	color = AUCUNE;
 	type = RIEN;
 	representante = this;
-	ptrHaut = nullptr;
+	app_tuile = t;
+	nbArete = 0;
+/*	ptrHaut = nullptr;
 	ptrBas = nullptr;
 	ptrGauche = nullptr;
-	ptrDroite = nullptr;
+	ptrDroite = nullptr;*/
 }
 
-Case::Case(unsigned int index) : index_(index) {
+Case::Case(unsigned int index, int t) : index_(index) {
 	assert(index < 16);
 	color = AUCUNE;
 	type = RIEN;
 	representante = this;
-	ptrHaut = nullptr;
+	app_tuile = t;
+	nbArete = 0;
+/*	ptrHaut = nullptr;
 	ptrBas = nullptr;
 	ptrGauche = nullptr;
-	ptrDroite = nullptr;
+	ptrDroite = nullptr;*/
 }
 
 unsigned int Case::index() const {
@@ -41,30 +45,30 @@ Case Case::haut() const {
 	if(index_ < 4) {
 		throw std::domain_error("la case n'a pas de voisine haute") ;
 	}
-	return Case(index_ - 4);
+	return Case(index_ - 4, app_tuile);
 }
 
 Case Case::bas() const {
 	if(index_ > 11) {
 		throw std::domain_error("la case n'a pas de voisine basse") ;
 	}
-	return Case(index_ + 4) ;
+	return Case(index_ + 4, app_tuile) ;
 }
 
 Case Case::gauche() const {
 	if(index_%4 == 0) {
 		throw std::domain_error("la case n'a pas de voisine gauche") ;
 	}
-	return Case(index_ - 1) ;
+	return Case(index_ - 1, app_tuile) ;
 }
 
 Case Case::droite() const {
 	if(index_%4 == 3) {
 		throw std::domain_error("la case n'a pas de voisine droite") ;
 	}
-	return Case(index_ + 1) ;
+	return Case(index_ + 1, app_tuile) ;
 }
-
+/*
 void Case::setHaut(Case * c) {
 	ptrHaut = c;
 }
@@ -104,7 +108,7 @@ Case Case::voisine(Direction d) const {
 		default : assert(false);
 	}
 }
-
+*/
 void Case::setColor(enum Couleur c) {
 	color = c;
 }
@@ -112,7 +116,7 @@ void Case::setColor(enum Couleur c) {
 enum Couleur Case::getCouleur() {
 	return color;
 }
-	
+
 void Case::setType(enum Types t) {
 	type = t;
 }
@@ -120,7 +124,7 @@ void Case::setType(enum Types t) {
 enum Types Case::getType() {
 	return type;
 }
-  
+
 void Case::setRepresentante(Case * rpz) {
 	representante = rpz;
 }
@@ -153,9 +157,9 @@ Case Case::tourne(int rotation) const {
 		c = 3 - c;
 	}
 	if(rotation & 1) {
-		return Case(4 * c + l);
+		return Case(4 * c + l, app_tuile);
 	} else {
-		return Case(4 * l + c);
+		return Case(4 * l + c, app_tuile);
 	}
 }
 

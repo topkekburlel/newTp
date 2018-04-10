@@ -1,5 +1,5 @@
 #include "tuile.hpp"
-//#include "joueur.hpp"
+#include "joueur.hpp"
 #include "melangeur.hpp"
 
 #include <iostream>
@@ -50,7 +50,7 @@ int main() {
 	//bool enJeu = true;
 	Tuile * tuileDeDepart = new Tuile();  			// setup de la tuile de depart
 	tuileDeDepart->setTuileDepart();
-	
+
 	for (int i = 1; i < 5; i++){ 					// 4 tuiles avec un objectif
 		couleurObjectifs.retirer(&tempCouleur);
 		tempTuile = new Tuile();
@@ -68,15 +68,15 @@ int main() {
 		tempTuile->setTuileNormale();
 		melTuiles.inserer(tempTuile);
 	}
-	
+
 	/*
 	tabJoueur[0] = new Joueur(JAUNE);
 	tabJoueur[1] = new Joueur(VERT);
 	tabJoueur[2] = new Joueur(ORANGE);
 	tabJoueur[3] = new Joueur(VIOLET);
-	
-	
-	
+
+
+
 	while(enJeu){
 		for(i = 0; i > 4; i++){
 			tabJoueur[i].mouvement();

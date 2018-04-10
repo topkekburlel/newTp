@@ -19,11 +19,33 @@ Tuile::Tuile() {
 	left = nullptr;
 	for(i = 0; i<16; i++)
     {
-        tabCases[i] = new Case(i);
+        tabCases[i] = new Case(i,0);
     }
     for(j = 0; j<24; j++)
     {
-        tabMurs[j] = new Mur(j);
+        tabMurs[j] = new Mur(j, 0);
+		nbMurs += 1;
+    }
+	setTuileDepart();
+}
+
+Tuile::Tuile(int id_) {
+    id = id_;
+    int i,j;
+	nbMurs = 0;
+    indexSites = 0;
+	tuile_depart = false;
+	up = nullptr;
+	down = nullptr;
+	right = nullptr;
+	left = nullptr;
+	for(i = 0; i<16; i++)
+    {
+        tabCases[i] = new Case(i, id);
+    }
+    for(j = 0; j<24; j++)
+    {
+        tabMurs[j] = new Mur(j, id);
 		nbMurs += 1;
     }
 	setTuileDepart();
@@ -60,34 +82,34 @@ void Tuile::union_site(Case * site1, Case * site2) {
 			s1 = tabCases[s1->index()+1];
 			s1->setRepresentante(tmpRepresentante);
 			// et on casse le mur de gauche
-			casse_murGauche(s1);
+			//casse_murGauche(s1);
 		} else if(currDistanceX > 0) { // s1 est sur la droite(x) de s2
 			// un pas a gauche
 			tmpRepresentante = s1;
 			s1 = tabCases[s1->index()-1];
 			s1->setRepresentante(tmpRepresentante);
 			// et on casse le mur de droite
-			casse_murDroite(s1);
+			//casse_murDroite(s1);
 		} else if(currDistanceY > 0) { // s1 est en bas(y) de s2
 			// un pas en haut
 			tmpRepresentante = s1;
 			s1 = tabCases[s1->index()-4];
 			s1->setRepresentante(tmpRepresentante);
 			// et on casse le mur d'en bas
-			casse_murBas(s1);
+			//casse_murBas(s1);
 		} else if(currDistanceY < 0) { // s1 est en haut(y) de s2
 			// un pas en bas
 			tmpRepresentante = s1;
 			s1 = tabCases[s1->index()+4];
 			s1->setRepresentante(tmpRepresentante);
 			// et on casse le mur d'en haut
-			casse_murHaut(s1);
+			//casse_murHaut(s1);
 		} else {
 			break;
 		}
 	}
 }
-
+/*
 void Tuile::casse_murDroite(Case * c) {
 	int colonneCase = c->index()%4;
 	int ligneCase = c->index()/4;
@@ -158,7 +180,7 @@ void Tuile::casse_murHaut(Case * c) {
 	std::cerr<<"Erreur : casse_murHaut == ECHEC"<<std::endl;
 }
 
-/*
+
 
 bool Tuile::verification(){
 	Case * r = rec_representante(tabVraiSites[0])
@@ -203,7 +225,7 @@ void Tuile::setTuileDepart() {
 
 	// DEPARTS
 	setDepart();
-	
+
 	// UNION FIND
 	for(int j = 0;j<indexSites;j++) {
 		union_site(tabSites[j],tabSites[0]);
@@ -220,7 +242,7 @@ void Tuile::setTuileNormale() {
 
 	//PORTES
 	setPortes(tuile_depart);
-	
+
 	// UNION FIND
 	for(int j = 0;j<indexSites;j++) {
 		union_site(tabSites[j],tabSites[0]);
@@ -232,10 +254,10 @@ void Tuile::setTuileObjectif(int cc) {
 
 	//PORTES
 	setPortes(tuile_depart);
-	
+
 	//OBJECTIFS
 	setObjectifs(cc);
-	
+
 	// UNION FIND
 	for(int j = 0;j<indexSites;j++) {
 		union_site(tabSites[j],tabSites[0]);
@@ -247,10 +269,10 @@ void Tuile::setTuileSortie(int cc) {
 
 	//PORTES
 	setPortes(tuile_depart);
-	
+
 	//SORTIES
 	setSorties(cc);
-	
+
 	// UNION FIND
 	for(int j = 0;j<indexSites;j++) {
 		union_site(tabSites[j],tabSites[0]);
@@ -298,14 +320,14 @@ void Tuile::setPortes(bool depart) {
 		}
 		srand((int)time(0)); 		// sinon la generation de "random" est nulle
 		int uneOuDeuxSorties = (rand()%3)+1; // 1,2 ou 3 sortie de couleur
-		
+
 		/* on place l'entree de la tuile */
 		mel.retirer(&intCouleurHasard); // on reutilise "intCouleurHasard" pour tirer au sort une case ACCES
 		index = tabPortes[intCouleurHasard];
 		tabCases[index]->setType(ACCES);
 		tabSites[indexSites] = tabCases[index];
 		indexSites += 1;
-		
+
 		for(int i = 1;i<=uneOuDeuxSorties;i++) {
 			mel.retirer(&intCouleurHasard);
 			index = tabPortes[intCouleurHasard];
@@ -520,5 +542,185 @@ std::ostream& operator<< (std::ostream& out, const Tuile& t) {
   t.afficher_horizontal(out, 4);
   return out ;
 }
+
+void Tuile::arete_tuile(){
+    bool b = false;
+	Case * c;
+	int j = 1;
+	for (int i = 0; i > 16; i++){
+		if(verification(tabCases[i])){
+			b = true;
+			c = tabCases[i];
+			while(c->index_ > 3 && b){
+				if(verification(tabCases[c->index_ - 4]) && tabMurs[c->index_ - 4] == nullptr){
+					c->tab_access[c->nbArete] = new arete(HAUT, j, c->app_tuile, c->index_ - 4);
+					c->nbArete = c->nbArete + 1;
+					j = j+1;
+					c = tabCases[c->index_ - 4];
+				}
+				else{
+					b = false;
+				}
+			}
+			b = true;
+			c = tabCases[i];
+			j = 1;
+			while((c->index_ % 4) < 3 && b){
+				if(verification(tabCases[c->index_ + 1]) && tabMurs[c->index_ + 1] == nullptr){
+					c->tab_access[c->nbArete] = new arete(DROITE, j,  c->app_tuile, c->index_ + 1);
+					c->nbArete = c->nbArete + 1;
+					j = j+1;
+					c = tabCases[c->index_ + 1];
+				}
+				else{
+					b = false;
+				}
+			}
+			b = true;
+			c = tabCases[i];
+			j = 1;
+			while(c->index_ < 12 && b){
+				if(verification(tabCases[c->index_ + 4]) && tabMurs[c->index_ + 4] == nullptr){
+					c->tab_access[c->nbArete] = new arete(BAS, j,  c->app_tuile, c->index_ + 4);
+					c->nbArete = c->nbArete + 1;
+					j = j+1;
+					c = tabCases[c->index_ + 4];
+				}
+				else{
+					b = false;
+				}
+			}
+			b = true;
+			c = tabCases[i];
+			j = 1;
+			while((c->index_ % 4) > 0 && b){
+				if(verification(tabCases[c->index_ - 1]) && tabMurs[c->index_ - 1] == nullptr){
+					c->tab_access[c->nbArete] = new arete(GAUCHE, j,  c->app_tuile, c->index_ - 1);
+					c->nbArete = c->nbArete + 1;
+					j = j+1;
+					c = tabCases[c->index_ - 1];
+				}
+				else{
+					b = false;
+				}
+			}
+		}
+	}
+}
+
+void Tuile::connecte_tuile_arete(Case* c){
+	Case* d;
+	Tuile* t;
+	int tab1[4];
+	int tab2[4];
+	int t1 = 1;
+	int t2 = 1;
+	int i, j;
+	if(c->index_ == 2){
+		t = up;
+		d = t->tabCases[13];
+		tab1[0] = c->index_;
+		tab2[0] = d->index_;
+		for(i=0; i<c->nbArete; i++){
+			if(c->tab_access[i]->direction == BAS){
+				tab1[t1] = c->tab_access[i]->position;
+				t1 = t1 + 1;
+			}
+		}
+		for(i=0; i< d->nbArete; i++){
+			if(c->tab_access[i]->direction == HAUT){
+				tab2[t2] = d->tab_access[i]->position;
+				t2 = t2 + 1;
+			}
+		}
+		for(i = 0; i < t1; i++){
+			for(j = 0; j < t2; j++){
+				tabCases[tab1[i]]->tab_access[tabCases[tab1[i]]->nbArete] = new arete(HAUT, (i+j+1), t->id, tab2[j]);
+				tabCases[tab1[i]]->nbArete = tabCases[tab1[i]]->nbArete + 1;
+				tabCases[tab2[j]]->tab_access[tabCases[tab2[j]]->nbArete] = new arete(BAS, (i+j+1), id, tab1[i]);
+				tabCases[tab2[j]]->nbArete = tabCases[tab2[j]]->nbArete + 1;
+			}
+		}
+	}
+	if(c->index_ == 4){
+        t = left;
+		d = left->tabCases[11];
+		tab1[0] = c->index_;
+		tab2[0] = d->index_;
+		for(i=0; i<c->nbArete; i++){
+			if(c->tab_access[i]->direction == DROITE){
+				tab1[t1] = c->tab_access[i]->position;
+				t1 = t1 + 1;
+			}
+		}
+		for(i=0; i<d->nbArete; i++){
+			if(c->tab_access[i]->direction == GAUCHE){
+				tab2[t2] = d->tab_access[i]->position;
+				t2 = t2 + 1;
+			}
+		}
+		for(i = 0; i < t1; i++){
+			for(j = 0; j < t2; j++){
+				tabCases[tab1[i]]->tab_access[tabCases[tab1[i]]->nbArete] = new arete(GAUCHE, (i+j+1), t->id, tab2[j]);
+				tabCases[tab1[i]]->nbArete = tabCases[tab1[i]]->nbArete + 1;
+				tabCases[tab2[j]]->tab_access[tabCases[tab2[j]]->nbArete] = new arete(DROITE, (i+j+1), id, tab1[i]);
+				tabCases[tab2[j]]->nbArete = tabCases[tab2[j]]->nbArete + 1;
+			}
+		}
+	}
+	if(c->index_ == 11){
+	    t = right;
+		d = right->tabCases[4];
+		tab1[0] = c->index_;
+		tab2[0] = d->index_;
+		for(i=0; i<c->nbArete; i++){
+			if(c->tab_access[i]->direction == GAUCHE){
+				tab1[t1] = c->tab_access[i]->position;
+				t1 = t1 + 1;
+			}
+		}
+		for(i=0; i<d->nbArete; i++){
+			if(c->tab_access[i]->direction == DROITE){
+				tab2[t2] = d->tab_access[i]->position;
+				t2 = t2 + 1;
+			}
+		}
+		for(i = 0; i < t1; i++){
+			for(j = 0; j < t2; j++){
+				tabCases[tab1[i]]->tab_access[tabCases[tab1[i]]->nbArete] = new arete(DROITE, (i+j+1), t->id, tab2[j]);
+				tabCases[tab1[i]]->nbArete = tabCases[tab1[i]]->nbArete + 1;
+				tabCases[tab2[j]]->tab_access[tabCases[tab2[j]]->nbArete] = new arete(GAUCHE, (i+j+1), id, tab1[i]);
+				tabCases[tab2[j]]->nbArete = tabCases[tab2[j]]->nbArete + 1;
+			}
+		}
+	}
+	if(c->index_ == 13){
+	    t = down;
+		d = down->tabCases[2];
+		tab1[0] = c->index_;
+		tab2[0] = d->index_;
+		for(i=0; i<c->nbArete; i++){
+			if(c->tab_access[i]->direction == HAUT){
+				tab1[t1] = c->tab_access[i]->position;
+				t1 = t1 + 1;
+			}
+		}
+		for(i=0; i<d->nbArete; i++){
+			if(c->tab_access[i]->direction == BAS){
+				tab2[t2] = d->tab_access[i]->position;
+				t2 = t2 + 1;
+			}
+		}
+		for(i = 0; i < t1; i++){
+			for(j = 0; j < t2; j++){
+				tabCases[tab1[i]]->tab_access[tabCases[tab1[i]]->nbArete] = new arete(BAS, (i+j+1), t->id, tab2[j]);
+				tabCases[tab1[i]]->nbArete = tabCases[tab1[i]]->nbArete + 1;
+				tabCases[tab2[j]]->tab_access[tabCases[tab2[j]]->nbArete] = new arete(HAUT, (i+j+1), id, tab1[i]);
+				tabCases[tab2[j]]->nbArete = tabCases[tab2[j]]->nbArete + 1;
+			}
+		}
+	}
+}
+
 
 } //end of namespace MMaze

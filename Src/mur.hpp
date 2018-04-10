@@ -29,12 +29,13 @@ namespace MMaze {
 class Mur {
 
   public :
-
+    unsigned int index_ ;
+    int app_tuile;
     //construction a partir des deux cases adjacentes
     Mur(Case c0, Case c1) ;
 
     //construction implicite a partir d'un entier dans [0,23], voir ci-dessus
-    explicit Mur(unsigned int index) ;
+    explicit Mur(unsigned int index, int t) ;
 
     //conversion implicite vers un entier dans [0,23], voir ci-dessus
     unsigned int index() const ;
@@ -53,7 +54,8 @@ class Mur {
   private :
 
     //stockage sous forme d'un entier, voir ci-dessus
-    unsigned int index_ ;
+
+
 } ;
 
 } //end of namespace MMaze

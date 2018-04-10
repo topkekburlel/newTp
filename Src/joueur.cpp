@@ -1,5 +1,7 @@
 #include "joueur.hpp"
 
+
+namespace MMaze {
 joueur::joueur()
 {
     tuile_act = nullptr;
@@ -7,7 +9,8 @@ joueur::joueur()
 	c = AUCUNE;
 }
 
-joueur::joueur(int i, tuile* depart){
+joueur::joueur(int i, Tuile* depart,Plateau* plateau) {
+    plat_jeu = plateau;
 	tuile_act = depart;
 	position = 1 + 4*(i/2) + (i%2);
 	c = tabCases[position]->color;
@@ -18,10 +21,9 @@ joueur::~joueur()
     tuile_act = nullptr;
 }
 
-joueur::mouvement()
+void joueur::mouvement(int tuile, int pos)
 {
-    //gestion des graphes, toussa toussa
-
-    //
-
+    tuile_act = plat_jeu[tuile];
+    position = pos;
+}
 }
