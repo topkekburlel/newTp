@@ -547,7 +547,7 @@ void Tuile::arete_tuile(){
     bool b = false;
 	Case * c;
 	int j = 1;
-	for (int i = 0; i > 16; i++){
+	for (int i = 0; i < 16; i++){
 		if(verification(tabCases[i])){
 			b = true;
 			c = tabCases[i];

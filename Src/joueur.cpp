@@ -1,4 +1,5 @@
 #include "joueur.hpp"
+#include "tuile.hpp"
 
 
 namespace MMaze {
