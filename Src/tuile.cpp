@@ -26,7 +26,6 @@ Tuile::Tuile() {
         tabMurs[j] = new Mur(j, 0);
 		nbMurs += 1;
     }
-	setTuileDepart();
 }
 
 Tuile::Tuile(int id_) {
@@ -48,7 +47,6 @@ Tuile::Tuile(int id_) {
         tabMurs[j] = new Mur(j, id);
 		nbMurs += 1;
     }
-	setTuileDepart();
 }
 
 bool Tuile::mur(Mur m) const {
