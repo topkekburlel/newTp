@@ -63,7 +63,7 @@ Case* joueur::trouve_site(){
                             d->visit = true;
                             g.pop();
                         }
-                        return c;
+                        return d;
                     }
                     f.push(a);
                     taille_niveau_suiv = taille_niveau_suiv + 1;
@@ -79,6 +79,7 @@ Case* joueur::trouve_site(){
             c->visit = false;
         }
     }
+	//std::cout<<"TROUVEE tuile_act->tabCases[position] == "<<tuile_act->tabCases[position]<<std::endl;
     return tuile_act->tabCases[position];
 }
 

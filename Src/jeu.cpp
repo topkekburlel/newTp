@@ -36,6 +36,7 @@ void verif_tuile(joueur* j){
 */
 
 int main() {
+	/*
 	Joueur * tabJoueur[4];
 	Tuile * tabTuile[NB_TUILE_MAX];
 	Tuile * tempTuile;
@@ -77,12 +78,12 @@ int main() {
 		currIndexTuile += 1;
 	}
 
-	/*
+
 	tabJoueur[0] = new Joueur(JAUNE);
 	tabJoueur[1] = new Joueur(VERT);
 	tabJoueur[2] = new Joueur(ORANGE);
 	tabJoueur[3] = new Joueur(VIOLET);
-*/
+
 
 
 	while(enJeu) {
@@ -144,28 +145,12 @@ int main() {
             }
         }
     }
-	/* avec un tableau de tuiles
-	tabTuile[0] = new Tuile;
-	tabTuile[0].setTuileDepart();
-	for (i = 1; i < 5; i++){ 					// 4 tuiles avec un objectif
-		couleurObjectifs.retirer(&tempCouleur);
-		tabTuile[i] = new Tuile();
-		tabTuile[i].setTuileObjectif(tempCouleur);
-	}
-	for (i = 5; i < 9; i++){ 					// 4 tuiles avec une sortie
-		couleurSorties.retirer(&tempCouleur);
-		tabTuile[i] = new Tuile();
-		tabTuile[i].setTuileSortie(tempCouleur);
-	}
-	for (i = 9; i < NB_TUILE_MAX; i++){			// le reste en tuiles normale
-		tabTuile[i] = new Tuile();
-		tabTuile[i].setTuileNotmale();
-	}
+	
 	*/
 	return 0;
 }
 
-
+/*
 void verif_pos(Joueur*j){
     Case* c = j->tuile_act->tabCases[position];
     if(j->status == ACCES && c->type == ACCES && j->co == c->color && c->nouv){
@@ -218,6 +203,6 @@ void verif_pos(Joueur*j){
             enJeu = false;
         }
     }
-}
+}*/
 
 }

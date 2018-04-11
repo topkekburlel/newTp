@@ -7,7 +7,7 @@ namespace MMaze {
 class Plateau
 {
     public:
-        Tuile * tab_tuile[40];
+        Tuile *tab_tuile[40];
         int nbTuile;
 
         Plateau();

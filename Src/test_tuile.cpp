@@ -12,11 +12,10 @@ using namespace MMaze ;
 
 int main() {
 	joueur * tabJoueur[4];
-	Plateau * p;
+	Plateau * p = new Plateau();
 	Tuile * tempTuile;
 	bool enJeu = true;
-	// int currIndexTuile = 0;
-	int currIndexTuile = 1;
+	int currIndexTuile = 0;
 	int tempCouleur;
 	Melangeur melTuiles = Melangeur(sizeof(Tuile));
 	Melangeur couleurObjectifs = Melangeur(sizeof(int));
@@ -30,7 +29,7 @@ int main() {
 	p->tab_tuile[currIndexTuile]->setTuileDepart();
 	p->incNbTuile();
 	currIndexTuile += 1;
-
+	
 	for (int i = 1; i < 5; i++){ 					// 4 tuiles avec un objectif
 		couleurObjectifs.retirer(&tempCouleur);
 		tempTuile = new Tuile(currIndexTuile);
@@ -53,28 +52,79 @@ int main() {
 	}
 	
 	//on set les joueurs !
+	
 	tabJoueur[0] = new joueur(0, p->tab_tuile[0],p);
 	tabJoueur[1] = new joueur(1, p->tab_tuile[0],p);
 	tabJoueur[2] = new joueur(2, p->tab_tuile[0],p);
 	tabJoueur[3] = new joueur(3, p->tab_tuile[0],p);
-
-	int indexCaseAcces = 0; // contiendra l'index de la case ACCES de la tuile piochee
+	
+	joueur * j;
+	Case* c;
+	Tuile* t;
+	int obj_trouv;
+	int iter = 0;
 	while(enJeu) {
-        for(int i = 0; i > 4; i++) {
-			Case * c = tabJoueur[i]->trouve_site();
-			tabJoueur[i]->mouvement(c->app_tuile, c->index_);
-			// si un joueur se trouve sur un case de type ACCES .. ET que sa couleur correspond à la couleur de la case ALORS on tire une tuile
-			if(tabJoueur[i]->tuile_act->tabCases[tabJoueur[i]->position]->getType() == ACCES && tabJoueur[i]->tuile_act->tabCases[tabJoueur[i]->position]->getCouleur() == tabJoueur[i]->co) {
-				melTuiles.retirer(&tempTuile);
-				p->tab_tuile[tempTuile->id] = tempTuile;
-				/*
-				*** ON CONNECTE la case : tabJoueur[i]->tuile_act->tabCases[position] AVEC la case : tempTuile->tabCases[indexCaseAcces] ***
-				* 	connecte_tuile_arete(tabJoueur[i]->tuile_act->tabCases[position]) ?
-				*/
-				// et la vie continue =D (en vré .. mon domaine de compétences s'arrête là ...)
-			}
+		iter++;
+        for(int i = 0; i < 4; i++) {
+			j = tabJoueur[i];
+            if(!((j->status == j->tuile_act->tabCases[j->position]->type) || j->status != ACCES)) {
+                c = j->trouve_site();
+                tabJoueur[i]->mouvement(c->app_tuile, c->index_);
+                c = j->tuile_act->tabCases[j->position];
+                if((j->status == ACCES) && (c->type == ACCES) && (j->co == c->color) && c->nouv){
+                    melTuiles.retirer(&t);
+                    if(c->index_ == 2){
+                        t->rotationTuile(3);
+                        j->tuile_act->left = t;
+                        j->plat_jeu->tab_tuile[j->tuile_act->left->id] = j->tuile_act->left;
+						
+                    }
+                    if(c->index_ == 4){
+                        j->tuile_act->up = t;
+                        j->plat_jeu->tab_tuile[j->tuile_act->up->id] = j->tuile_act->up;
+						
+                    }
+                    if(c->index_ == 11){
+                        t->rotationTuile(1);
+                        j->tuile_act->right = t;
+                        j->plat_jeu->tab_tuile[j->tuile_act->right->id] = j->tuile_act->right;
+                    }
+                    if(c->index_ == 13){
+                        t->rotationTuile(2);
+                        j->tuile_act->down = t;
+                        j->plat_jeu->tab_tuile[j->tuile_act->down->id] = j->tuile_act->down;
+                    }
+                    j->tuile_act->connecte_tuile_arete(c);
+                    c->nouv = false;
+                    if(t->id < 9){
+                        obj_trouv = obj_trouv + 1;
+                        if(obj_trouv == 8){
+                            for(i = 0; i < 4; i++){
+                                tabJoueur[i]->status = OBJECTIF;
+                            }
+                            obj_trouv = 0;
+                        }
+                    }
+                }
+                if((j->status == OBJECTIF) && (c->type == OBJECTIF) && (j->co == c->color) && c->nouv){
+                    c->nouv = false;
+                    obj_trouv = obj_trouv + 1;
+                    if(obj_trouv == 4){
+                        for(i = 0; i < 4; i++){
+                            tabJoueur[i]->status = SORTIE;
+                        }
+                        obj_trouv = 0;
+                    }
+                }
+                if((j->status == SORTIE) && (c->type == SORTIE) && (j->co == c->color) && c->nouv){
+                    c->nouv = false;
+                    obj_trouv = obj_trouv + 1;
+                    if(obj_trouv == 4){
+                        enJeu = false;
+                    }
+                }
+            }
         }
-		//faudra pas oublier de set :  enJeu = false
     }
 	return 0;
 }
