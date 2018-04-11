@@ -53,6 +53,24 @@ bool Tuile::mur(Mur m) const {
 	return tabMurs[m.index()];
 }
 
+void Tuile::rotationTuile(int degre) {
+	int i;
+	Case * newTabCase[16];
+	Mur * newTabMur[24];
+	for(i = 0; i<16; i++)
+    {
+        newTabCase[i] = tabCases[i]->tournePtr(degre);
+    }
+	for(i = 0; i<24; i++)
+    {
+		if(tabMurs[i] != nullptr) {
+			newTabMur[i] = tabMurs[i]->tournePtr(degre);
+		}
+    }
+	*tabCases = *newTabCase;
+	*tabMurs = *newTabMur;
+}
+
 Case * Tuile::rec_representante(Case * cr) {
 	if(cr->getRepresentante() != cr)
 	{
@@ -126,6 +144,8 @@ void Tuile::casse_murDroite(Case * c) {
 			break;
 	}
 }
+
+
 
 void Tuile::casse_murGauche(Case * c) {
 	int colonneCase = c->index()%4;

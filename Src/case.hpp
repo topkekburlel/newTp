@@ -73,6 +73,7 @@ class Case {
 		unsigned int operator[](unsigned int i) const;
 
 		//rotation de la case
+		Case * tournePtr(int rotation);
 		Case tourne(int rotation) const;
 
 		// Set la couleur de la case
