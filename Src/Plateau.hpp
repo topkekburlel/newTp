@@ -12,6 +12,8 @@ class Plateau
 
         Plateau();
         virtual ~Plateau();
+		
+		void incNbTuile();
 
     protected:
 
