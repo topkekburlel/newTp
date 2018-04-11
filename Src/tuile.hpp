@@ -83,6 +83,7 @@ class Tuile {
 
     void arete_tuile();
     void connecte_tuile_arete(Case* c);
+	void rotationTuile(int degre);
 
   private :
 

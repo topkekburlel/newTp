@@ -103,6 +103,24 @@ unsigned int Case::operator[](unsigned int i) const {
 	return index_ % 4;
 }
 
+Case * Case::tournePtr(int rotation) {
+	unsigned int l = index_ / 4;
+	unsigned int c = index_ % 4;
+	Case * tmp;
+	if(rotation & 2) {
+		l = 3 - l;
+	}
+	if((rotation + 1) & 2) {
+		c = 3 - c;
+	}
+	if(rotation & 1) {
+		tmp = new Case(4 * c + l, app_tuile);
+	} else {
+		tmp = new Case(4 * l + c, app_tuile);
+	}
+	return tmp;
+}
+
 Case Case::tourne(int rotation) const {
 	unsigned int l = index_ / 4;
 	unsigned int c = index_ % 4;

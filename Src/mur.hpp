@@ -50,6 +50,8 @@ class Mur {
 
     //rotation
     Mur tourne(int rotation) const ;
+	
+	Mur * tournePtr(int rotation);
 
   private :
 

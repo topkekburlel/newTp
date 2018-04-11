@@ -26,7 +26,7 @@ int main() {
 		couleurSorties.inserer(&i);			// dans l'enum COULEUR
 	}
 	
-	p->tab_tuile[currIndexTuile] = new Tuile(currIndexTuile);  			// setup de la tuile de depart
+	p->tab_tuile[currIndexTuile] = new Tuile(currIndexTuile);  	// setup de la tuile de depart
 	p->tab_tuile[currIndexTuile]->setTuileDepart();
 	p->incNbTuile();
 	currIndexTuile += 1;

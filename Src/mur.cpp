@@ -56,4 +56,12 @@ Mur Mur::tourne(int rotation) const {
   return Mur(c0.tourne(rotation), c1.tourne(rotation));
 }
 
+Mur * Mur::tournePtr(int rotation) {
+	Case c0 = (*this)[0] ;
+	Case c1 = (*this)[1] ;
+	Mur tmp = Mur(c0.tourne(rotation), c1.tourne(rotation));
+	Mur * tmpPtr = new Mur(tmp.index(),tmp.app_tuile);
+	return tmpPtr;
+}
+
 } //end of namespace MMaze
