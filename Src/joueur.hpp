@@ -9,7 +9,7 @@ namespace MMaze {
 class joueur
 {
     public:
-        enum Couleur color_j;
+        enum Couleur co;
         Tuile* tuile_act;
         int position;
         int status;

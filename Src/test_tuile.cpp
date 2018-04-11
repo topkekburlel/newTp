@@ -64,8 +64,8 @@ int main() {
 			Case * c = tabJoueur[i]->trouve_site();
 			tabJoueur[i]->mouvement(c->app_tuile, c->index_);
 			// si un joueur se trouve sur un case de type ACCES .. ET que sa couleur correspond à la couleur de la case ALORS on tire une tuile
-			if(tabJoueur[i]->tuile_act->tabCases[position]->getType() == ACCES && tabJoueur[i]->tuile_act->tabCases[position]->getColor() == tabJoueur[i]->color_j) {
-				melTuiles.retirer($tempTuile);
+			if(tabJoueur[i]->tuile_act->tabCases[tabJoueur[i]->position]->getType() == ACCES && tabJoueur[i]->tuile_act->tabCases[tabJoueur[i]->position]->getCouleur() == tabJoueur[i]->co) {
+				melTuiles.retirer(&tempTuile);
 				p->tab_tuile[tempTuile->id] = tempTuile;
 				/*
 				*** ON CONNECTE la case : tabJoueur[i]->tuile_act->tabCases[position] AVEC la case : tempTuile->tabCases[indexCaseAcces] ***
