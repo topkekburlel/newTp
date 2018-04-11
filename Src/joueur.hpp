@@ -6,13 +6,14 @@
 
 namespace MMaze {
 
+
 class joueur
 {
     public:
         enum Couleur co;
         Tuile* tuile_act;
         int position;
-        int status;
+        enum Types status;
         Plateau* plat_jeu;
 
         joueur();

@@ -36,14 +36,17 @@ void verif_tuile(joueur* j){
 */
 
 int main() {
-	joueur * tabJoueur[4];
+	Joueur * tabJoueur[4];
 	Tuile * tabTuile[NB_TUILE_MAX];
 	Tuile * tempTuile;
 	int currIndexTuile = 0;
 	int tempCouleur;
+	int obj_trouv = 0;
 	Melangeur melTuiles = Melangeur(sizeof(Tuile));
 	Melangeur couleurObjectifs = Melangeur(sizeof(int));
 	Melangeur couleurSorties = Melangeur(sizeof(int));
+	Joueur* j;
+	bool enJeu = true;
 	for(int i = 0; i<4; i++) {
 		couleurObjectifs.inserer(&i);		// on insere 4 int dans les melangeurs qui representeront nos couleurs
 		couleurSorties.inserer(&i);			// dans l'enum COULEUR
@@ -107,6 +110,55 @@ int main() {
 	}
 	*/
 	return 0;
+}
+
+
+void verif_pos(Joueur*j){
+    Case* c = j->tuile_act->tabCases[position];
+    if(j->status == ACCES && c->type == ACCES && j->co == c->color && c->nouv){
+        Tuile* t = melTuiles.retirer();
+        if(c->index_ == 2){
+            j->tuile_act->left = t;
+            j->plat_jeu->tab_tuiles[j->tuile_act->left->id] = j->tuile_act->left;
+        }
+        if(c->index_ == 4){
+            j->tuile_act->up = t;
+            j->plat_jeu->tab_tuiles[j->tuile_act->up->id] = j->tuile_act->up;
+        }
+        if(c->index_ == 11){
+            j->tuile_act->right = t;
+            j->plat_jeu->tab_tuiles[j->tuile_act->right->id] = j->tuile_act->right;
+        }
+        if(c->index_ == 13){
+            j->tuile_act->down = t;
+            j->plat_jeu->tab_tuiles[j->tuile_act->down->id] = j->tuile_act->down;
+        }
+        j->tuile_act->connecte_tuile_arete(c);
+        if(t->id < 9){
+            obj_trouv = obj_trouv + 1;
+            if(obj_trouv == 8){
+                for(i = 0; i < 4; i++){
+                    tabJoueur[i]->status = OBJECTIF;
+                }
+                obj_trouv = 0;
+            }
+        }
+    }
+    if(j->status == OBJECTIF && c->type == OBJECTIF && j->co == c->color && c->nouv){
+        obj_trouv = obj_trouv + 1;
+        if(obj_trouv == 4){
+            for(i = 0; i < 4; i++){
+                    tabJoueur[i]->status = SORTIE;
+                }
+                obj_trouv = 0;
+        }
+    }
+    if(j->status == SORTIE && c->type == SORTIE && j->co == c->color && c-<nouv){
+        obj_trouv = obj_trouv + 1;
+        if(obj_trouv == 4){
+            enJeu = false;
+        }
+    }
 }
 
 }

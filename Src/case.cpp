@@ -15,6 +15,7 @@ Case::Case(unsigned int l, unsigned int c, int t) {
 	app_tuile = t;
 	nbArete = 0;
 	visit = true;
+	nouv = true;
 }
 
 Case::Case(unsigned int index, int t) : index_(index) {
@@ -25,6 +26,7 @@ Case::Case(unsigned int index, int t) : index_(index) {
 	app_tuile = t;
 	nbArete = 0;
 	visit = true;
+	nouv = true;
 }
 
 unsigned int Case::index() const {

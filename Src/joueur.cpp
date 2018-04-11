@@ -9,7 +9,7 @@ joueur::joueur()
     tuile_act = nullptr;
 	position = -1;
 	co = AUCUNE;
-	status = 0;
+	status = ACCES;
 }
 
 joueur::joueur(int i, Tuile* depart, Plateau* plateau){
@@ -17,7 +17,7 @@ joueur::joueur(int i, Tuile* depart, Plateau* plateau){
 	tuile_act = depart;
 	position = 1 + 4*((i/2) + 1) + (i%2);
 	co = tuile_act->tabCases[position]->color;
-	status = 0;
+	status = ACCES;
 }
 
 joueur::~joueur()
@@ -38,7 +38,7 @@ Case* joueur::trouve_site(){
     int niveau, iteration, taille_niveau, taille_niveau_suiv;
     std::queue<Arete*> f;
     std::queue<Arete*> g;
-    if(status < 4) {
+    if(status != RIEN) {
         c->visit = false;
         for(int i = 0; i < c->nbArete; i++){
             f.push(c->tab_access[i]);
@@ -56,7 +56,8 @@ Case* joueur::trouve_site(){
                 a = c->tab_access[i];
                 d = plat_jeu->tab_tuile[a->tuile]->tabCases[a->position];
                 if(d->visit){
-                    if(d->type == status && d->color == co){
+                    if(d->type == status && d->color == co && d->nouv){
+                        d->nouv = false;
                         while(!g.empty()){
                             a = g.front();
                             d = plat_jeu->tab_tuile[a->tuile]->tabCases[a->position];

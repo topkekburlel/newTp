@@ -45,6 +45,7 @@ class Case {
 		int nbArete;
         int app_tuile;
         bool visit;
+        bool nouv;
 
 		//construction depuis ligne et colonne
 		Case(unsigned int l, unsigned int c, int t);
