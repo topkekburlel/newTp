@@ -527,22 +527,16 @@ void Tuile::arete_tuile() {
 	Case * c;
 	int stock;
 	int j = 1;
-	std::cout << "a" <<endl;
 	for (int i = 0; i < 16; i++){
-        std::cout << "b" <<endl;
 		if(verification(tabCases[i])){
-		    std::cout << "c" <<endl;
 			b = true;
 			c = tabCases[i];
 			stock = i;
 			while(stock > 4 && b) {
-			    std::cout << "d1" <<endl;
 				if(verification(tabCases[stock - 4]) && tabMurs[stock - 4] == nullptr){
-				    std::cout << "d2" <<endl;
 					c->tab_access[c->nbArete] = new Arete(HAUT, j, c->app_tuile, stock - 4);
 					c->nbArete = c->nbArete + 1;
 					j = j+1;
-					std::cout << "d3" << c->nbArete<< endl;
 					stock = stock - 4;
 				}
 				else{
@@ -553,13 +547,10 @@ void Tuile::arete_tuile() {
 			stock = i;
 			j = 1;
 			while((stock % 4) < 3 && b){
-			    std::cout << "e1" <<endl;
 				if(verification(tabCases[stock + 1]) && tabMurs[(stock/4) + 12 + ((stock%4)+4)] == nullptr){
-				    std::cout << "e2" <<endl;
 					c->tab_access[c->nbArete] = new Arete(DROITE, j,  c->app_tuile, stock + 1);
 					c->nbArete = c->nbArete + 1;
 					j = j+1;
-					std::cout << "e3" << c->nbArete<< endl;
 					stock = stock + 1;
 
 				}
@@ -571,13 +562,10 @@ void Tuile::arete_tuile() {
 			stock = i;
 			j = 1;
 			while(stock < 12 && b){
-			    std::cout << "f1" <<endl;
 				if(verification(tabCases[stock + 4]) && tabMurs[stock] == nullptr){
-				    std::cout << "f2" <<endl;
 					c->tab_access[c->nbArete] = new Arete(BAS, j,  c->app_tuile, stock + 4);
 					c->nbArete = c->nbArete + 1;
 					j = j+1;
-					std::cout << "f3" << c->nbArete<< endl;
 					stock = stock + 4;
 				}
 				else{
@@ -588,13 +576,10 @@ void Tuile::arete_tuile() {
 			stock = i;
 			j = 1;
 			while((stock % 4) > 0 && b){
-			    std::cout << "g1" <<endl;
 				if(verification(tabCases[stock - 1]) && tabMurs[(stock/4) + 8 + ((stock%4)+4)] == nullptr){
-				    std::cout << "g2" <<endl;
 					c->tab_access[c->nbArete] = new Arete(GAUCHE, j,  c->app_tuile, stock - 1);
 					c->nbArete = c->nbArete + 1;
 					j = j+1;
-					std::cout << "g3" << c->nbArete<< endl;
 					stock = stock - 1;
 				}
 				else{

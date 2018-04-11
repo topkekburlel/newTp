@@ -71,13 +71,11 @@ int main() {
 		iter++;
         for(int i = 0; i < 4; i++) {
 			j = tabJoueur[i];
-			std::cout << j->position << endl;
             if(!((j->status == j->tuile_act->tabCases[j->position]->type) || j->status != ACCES)) {
                 c = j->trouve_site();
                 tabJoueur[i]->mouvement(c->app_tuile, c->index_);
                 c = j->tuile_act->tabCases[j->position];
                 if((j->status == ACCES) && (c->type == ACCES) && (j->co == c->color) && c->nouv){
-                    std::cout <<"3 " << iter << endl;
                     melTuiles.retirer(&t);
                     if(c->index_ == 2){
                         t->rotationTuile(3);
