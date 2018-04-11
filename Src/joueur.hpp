@@ -4,10 +4,11 @@
 #include "tuile.hpp"
 
 
+
 namespace MMaze {
 
 
-class joueur
+class Joueur
 {
     public:
         enum Couleur co;
@@ -16,9 +17,9 @@ class joueur
         enum Types status;
         Plateau* plat_jeu;
 
-        joueur();
-        joueur(int i, Tuile* depart, Plateau* plateau);
-        virtual ~joueur();
+        Joueur();
+        Joueur(int i, Tuile* depart, Plateau* plateau);
+        ~Joueur();
 
         // gère le déplacement d'un joueur
         void mouvement(int tuile, int pos);

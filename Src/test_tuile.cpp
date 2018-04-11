@@ -11,7 +11,7 @@
 using namespace MMaze ;
 
 int main() {
-	joueur * tabJoueur[4];
+	Joueur * tabJoueur[4];
 	Plateau * p = new Plateau();
 	Tuile * tempTuile;
 	bool enJeu = true;
@@ -24,16 +24,18 @@ int main() {
 		couleurObjectifs.inserer(&i);		// on insere 4 int dans les melangeurs qui representeront nos couleurs
 		couleurSorties.inserer(&i);			// dans l'enum COULEUR
 	}
-	
+
 	p->tab_tuile[currIndexTuile] = new Tuile(currIndexTuile);  	// setup de la tuile de depart
 	p->tab_tuile[currIndexTuile]->setTuileDepart();
+	p->tab_tuile[currIndexTuile]->arete_tuile();
 	p->incNbTuile();
 	currIndexTuile += 1;
-	
+
 	for (int i = 1; i < 5; i++){ 					// 4 tuiles avec un objectif
 		couleurObjectifs.retirer(&tempCouleur);
 		tempTuile = new Tuile(currIndexTuile);
 		tempTuile->setTuileObjectif(tempCouleur);
+		tempTuile->arete_tuile();
 		melTuiles.inserer(tempTuile);
 		currIndexTuile += 1;
 	}
@@ -41,24 +43,26 @@ int main() {
 		couleurSorties.retirer(&tempCouleur);
 		tempTuile = new Tuile(currIndexTuile);
 		tempTuile->setTuileSortie(tempCouleur);
+		tempTuile->arete_tuile();
 		melTuiles.inserer(tempTuile);
 		currIndexTuile += 1;
 	}
 	for (int i = 9; i < 40; i++){			// le reste en tuiles normale
 		tempTuile = new Tuile(currIndexTuile);
 		tempTuile->setTuileNormale();
+		tempTuile->arete_tuile();
 		melTuiles.inserer(tempTuile);
 		currIndexTuile += 1;
 	}
-	
+
 	//on set les joueurs !
-	
-	tabJoueur[0] = new joueur(0, p->tab_tuile[0],p);
-	tabJoueur[1] = new joueur(1, p->tab_tuile[0],p);
-	tabJoueur[2] = new joueur(2, p->tab_tuile[0],p);
-	tabJoueur[3] = new joueur(3, p->tab_tuile[0],p);
-	
-	joueur * j;
+
+	tabJoueur[0] = new Joueur(0, p->tab_tuile[0],p);
+	tabJoueur[1] = new Joueur(1, p->tab_tuile[0],p);
+	tabJoueur[2] = new Joueur(2, p->tab_tuile[0],p);
+	tabJoueur[3] = new Joueur(3, p->tab_tuile[0],p);
+
+	Joueur * j;
 	Case* c;
 	Tuile* t;
 	int obj_trouv;
@@ -67,22 +71,24 @@ int main() {
 		iter++;
         for(int i = 0; i < 4; i++) {
 			j = tabJoueur[i];
+			std::cout << j->position << endl;
             if(!((j->status == j->tuile_act->tabCases[j->position]->type) || j->status != ACCES)) {
                 c = j->trouve_site();
                 tabJoueur[i]->mouvement(c->app_tuile, c->index_);
                 c = j->tuile_act->tabCases[j->position];
                 if((j->status == ACCES) && (c->type == ACCES) && (j->co == c->color) && c->nouv){
+                    std::cout <<"3 " << iter << endl;
                     melTuiles.retirer(&t);
                     if(c->index_ == 2){
                         t->rotationTuile(3);
                         j->tuile_act->left = t;
                         j->plat_jeu->tab_tuile[j->tuile_act->left->id] = j->tuile_act->left;
-						
+
                     }
                     if(c->index_ == 4){
                         j->tuile_act->up = t;
                         j->plat_jeu->tab_tuile[j->tuile_act->up->id] = j->tuile_act->up;
-						
+
                     }
                     if(c->index_ == 11){
                         t->rotationTuile(1);
@@ -132,7 +138,7 @@ int main() {
 int main() {
 
   Tuile t(0) ;
-  
+
   std::cout << t << std::endl ;
 
   //utilisation des couleurs

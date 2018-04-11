@@ -36,7 +36,7 @@ void verif_tuile(joueur* j){
 */
 
 int main() {
-	/*
+
 	Joueur * tabJoueur[4];
 	Tuile * tabTuile[NB_TUILE_MAX];
 	Tuile * tempTuile;
@@ -47,6 +47,7 @@ int main() {
 	Melangeur couleurObjectifs = Melangeur(sizeof(int));
 	Melangeur couleurSorties = Melangeur(sizeof(int));
 	Joueur* j;
+	Case* c;
 	bool enJeu = true;
 	for(int i = 0; i<4; i++) {
 		couleurObjectifs.inserer(&i);		// on insere 4 int dans les melangeurs qui representeront nos couleurs
@@ -55,12 +56,14 @@ int main() {
 	//bool enJeu = true;
 	tabTuile[currIndexTuile] = new Tuile(currIndexTuile);  			// setup de la tuile de depart
 	tabTuile[currIndexTuile]->setTuileDepart();
+	tabTuile[currIndexTuile]->arete_tuile();
 	currIndexTuile += 1;
 
 	for (int i = 1; i < 5; i++){ 					// 4 tuiles avec un objectif
 		couleurObjectifs.retirer(&tempCouleur);
 		tabTuile[currIndexTuile] = new Tuile(currIndexTuile);
 		tabTuile[currIndexTuile]->setTuileObjectif(tempCouleur);
+		tabTuile[currIndexTuile]->arete_tuile();
 		melTuiles.inserer(tabTuile[currIndexTuile]);
 		currIndexTuile += 1;
 	}
@@ -69,53 +72,56 @@ int main() {
 		tabTuile[currIndexTuile] = new Tuile(currIndexTuile);
 		tabTuile[currIndexTuile]->setTuileSortie(tempCouleur);
 		melTuiles.inserer(tabTuile[currIndexTuile]);
+		tabTuile[currIndexTuile]->arete_tuile();
 		currIndexTuile += 1;
 	}
 	for (int i = 9; i < NB_TUILE_MAX; i++){			// le reste en tuiles normale
 		tabTuile[currIndexTuile] = new Tuile(currIndexTuile);
 		tabTuile[currIndexTuile]->setTuileNormale();
 		melTuiles.inserer(tabTuile[currIndexTuile]);
+		tabTuile[currIndexTuile]->arete_tuile();
 		currIndexTuile += 1;
 	}
 
-
+/*
 	tabJoueur[0] = new Joueur(JAUNE);
 	tabJoueur[1] = new Joueur(VERT);
 	tabJoueur[2] = new Joueur(ORANGE);
 	tabJoueur[3] = new Joueur(VIOLET);
 
-
+*/
 
 	while(enJeu) {
-        for(i = 0; i > 4; i++) {
-            if(joueur[i]->status == j->tuile_act->tabCases[position]->type && joueur[i]->status != ACCES){
-                c = joueur[i]->trouve_site();
-                tabJoueur[i]->mouvement(c->app_tuile, c->index);
-                Case* c = j->tuile_act->tabCases[position];
+        for(int i = 0; i > 4; i++) {
+            j = tabJoueur[i];
+            if(j->status != j->tuile_act->tabCases[j->position]->type || j->status == ACCES){
+                c = j->trouve_site();
+                j->mouvement(c->app_tuile, c->index_);
+                Case* c = j->tuile_act->tabCases[j->position];
                 if(j->status == ACCES && c->type == ACCES && j->co == c->color && c->nouv){
-                    Tuile* t = melTuiles.retirer();
+                    melTuiles.retirer(&tempTuile);
                     if(c->index_ == 2){
-                        t->rotationTuile(3);
-                        j->tuile_act->left = t;
-                        j->plat_jeu->tab_tuiles[j->tuile_act->left->id] = j->tuile_act->left;
+                        tempTuile->rotationTuile(3);
+                        j->tuile_act->left = tempTuile;
+                        j->plat_jeu->tab_tuile[j->tuile_act->left->id] = j->tuile_act->left;
                     }
                     if(c->index_ == 4){
-                        j->tuile_act->up = t;
-                        j->plat_jeu->tab_tuiles[j->tuile_act->up->id] = j->tuile_act->up;
+                        j->tuile_act->up = tempTuile;
+                        j->plat_jeu->tab_tuile[j->tuile_act->up->id] = j->tuile_act->up;
                     }
                     if(c->index_ == 11){
-                        t->rotationTuile(1)
-                        j->tuile_act->right = t;
-                        j->plat_jeu->tab_tuiles[j->tuile_act->right->id] = j->tuile_act->right;
+                        tempTuile->rotationTuile(1);
+                        j->tuile_act->right = tempTuile;
+                        j->plat_jeu->tab_tuile[j->tuile_act->right->id] = j->tuile_act->right;
                     }
                     if(c->index_ == 13){
-                        t->rotationTuile(2);
-                        j->tuile_act->down = t;
-                        j->plat_jeu->tab_tuiles[j->tuile_act->down->id] = j->tuile_act->down;
+                        tempTuile->rotationTuile(2);
+                        j->tuile_act->down = tempTuile;
+                        j->plat_jeu->tab_tuile[j->tuile_act->down->id] = j->tuile_act->down;
                     }
                     j->tuile_act->connecte_tuile_arete(c);
                     c->nouv = false;
-                    if(t->id < 9){
+                    if(tempTuile->id < 9){
                         obj_trouv = obj_trouv + 1;
                         if(obj_trouv == 8){
                             for(i = 0; i < 4; i++){
@@ -145,8 +151,6 @@ int main() {
             }
         }
     }
-	
-	*/
 	return 0;
 }
 

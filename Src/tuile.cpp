@@ -69,6 +69,7 @@ void Tuile::rotationTuile(int degre) {
     }
 	*tabCases = *newTabCase;
 	*tabMurs = *newTabMur;
+	arete_tuile();
 }
 
 Case * Tuile::rec_representante(Case * cr) {
@@ -212,6 +213,7 @@ void Tuile::setTuileDepart() {
 		std::cout<<"tabSites["<<j<<"]->getRepresentante() == "<<tabSites[j]->getRepresentante()<<std::endl;
 	}
 	*/
+	arete_tuile();
 }
 
 void Tuile::setTuileNormale() {
@@ -523,59 +525,77 @@ std::ostream& operator<< (std::ostream& out, const Tuile& t) {
 void Tuile::arete_tuile() {
     bool b = false;
 	Case * c;
+	int stock;
 	int j = 1;
+	std::cout << "a" <<endl;
 	for (int i = 0; i < 16; i++){
+        std::cout << "b" <<endl;
 		if(verification(tabCases[i])){
+		    std::cout << "c" <<endl;
 			b = true;
 			c = tabCases[i];
-			while(c->index_ > 3 && b) {
-				if(verification(tabCases[c->index_ - 4]) && tabMurs[c->index_ - 4] == nullptr){
-					c->tab_access[c->nbArete] = new Arete(HAUT, j, c->app_tuile, c->index_ - 4);
+			stock = i;
+			while(stock > 4 && b) {
+			    std::cout << "d1" <<endl;
+				if(verification(tabCases[stock - 4]) && tabMurs[stock - 4] == nullptr){
+				    std::cout << "d2" <<endl;
+					c->tab_access[c->nbArete] = new Arete(HAUT, j, c->app_tuile, stock - 4);
 					c->nbArete = c->nbArete + 1;
 					j = j+1;
-					c = tabCases[c->index_ - 4];
+					std::cout << "d3" << c->nbArete<< endl;
+					stock = stock - 4;
 				}
 				else{
 					b = false;
 				}
 			}
 			b = true;
-			c = tabCases[i];
+			stock = i;
 			j = 1;
-			while((c->index_ % 4) < 3 && b){
-				if(verification(tabCases[c->index_ + 1]) && tabMurs[c->index_ + 1] == nullptr){
-					c->tab_access[c->nbArete] = new Arete(DROITE, j,  c->app_tuile, c->index_ + 1);
+			while((stock % 4) < 3 && b){
+			    std::cout << "e1" <<endl;
+				if(verification(tabCases[stock + 1]) && tabMurs[(stock/4) + 12 + ((stock%4)+4)] == nullptr){
+				    std::cout << "e2" <<endl;
+					c->tab_access[c->nbArete] = new Arete(DROITE, j,  c->app_tuile, stock + 1);
 					c->nbArete = c->nbArete + 1;
 					j = j+1;
-					c = tabCases[c->index_ + 1];
+					std::cout << "e3" << c->nbArete<< endl;
+					stock = stock + 1;
+
 				}
 				else{
 					b = false;
 				}
 			}
 			b = true;
-			c = tabCases[i];
+			stock = i;
 			j = 1;
-			while(c->index_ < 12 && b){
-				if(verification(tabCases[c->index_ + 4]) && tabMurs[c->index_ + 4] == nullptr){
-					c->tab_access[c->nbArete] = new Arete(BAS, j,  c->app_tuile, c->index_ + 4);
+			while(stock < 12 && b){
+			    std::cout << "f1" <<endl;
+				if(verification(tabCases[stock + 4]) && tabMurs[stock] == nullptr){
+				    std::cout << "f2" <<endl;
+					c->tab_access[c->nbArete] = new Arete(BAS, j,  c->app_tuile, stock + 4);
 					c->nbArete = c->nbArete + 1;
 					j = j+1;
-					c = tabCases[c->index_ + 4];
+					std::cout << "f3" << c->nbArete<< endl;
+					stock = stock + 4;
 				}
 				else{
 					b = false;
 				}
 			}
 			b = true;
-			c = tabCases[i];
+			stock = i;
 			j = 1;
-			while((c->index_ % 4) > 0 && b){
-				if(verification(tabCases[c->index_ - 1]) && tabMurs[c->index_ - 1] == nullptr){
-					c->tab_access[c->nbArete] = new Arete(GAUCHE, j,  c->app_tuile, c->index_ - 1);
+			while((stock % 4) > 0 && b){
+			    std::cout << "g1" <<endl;
+				if(verification(tabCases[stock - 1]) && tabMurs[(stock/4) + 8 + ((stock%4)+4)] == nullptr){
+				    std::cout << "g2" <<endl;
+					c->tab_access[c->nbArete] = new Arete(GAUCHE, j,  c->app_tuile, stock - 1);
 					c->nbArete = c->nbArete + 1;
 					j = j+1;
-					c = tabCases[c->index_ - 1];
+					std::cout << "g3" << c->nbArete<< endl;
+					stock = stock - 1;
 				}
 				else{
 					b = false;
