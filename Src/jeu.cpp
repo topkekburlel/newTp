@@ -36,37 +36,42 @@ void verif_tuile(joueur* j){
 */
 
 int main() {
-	//Joueur* tabJoueur[4];
-	//Tuile* tabTuile[NB_TUILE_MAX];
+	joueur * tabJoueur[4];
+	Tuile * tabTuile[NB_TUILE_MAX];
 	Tuile * tempTuile;
+	int currIndexTuile = 0;
 	int tempCouleur;
 	Melangeur melTuiles = Melangeur(sizeof(Tuile));
 	Melangeur couleurObjectifs = Melangeur(sizeof(int));
 	Melangeur couleurSorties = Melangeur(sizeof(int));
 	for(int i = 0; i<4; i++) {
-			couleurObjectifs.inserer(&i);		// on insere 4 int dans les melangeurs qui representeront nos couleurs
-			couleurSorties.inserer(&i);			// dans l'enum COULEUR
+		couleurObjectifs.inserer(&i);		// on insere 4 int dans les melangeurs qui representeront nos couleurs
+		couleurSorties.inserer(&i);			// dans l'enum COULEUR
 	}
 	//bool enJeu = true;
-	Tuile * tuileDeDepart = new Tuile();  			// setup de la tuile de depart
-	tuileDeDepart->setTuileDepart();
+	tabTuile[currIndexTuile] = new Tuile(currIndexTuile);  			// setup de la tuile de depart
+	tabTuile[currIndexTuile]->setTuileDepart();
+	currIndexTuile += 1;
 
 	for (int i = 1; i < 5; i++){ 					// 4 tuiles avec un objectif
 		couleurObjectifs.retirer(&tempCouleur);
-		tempTuile = new Tuile();
-		tempTuile->setTuileObjectif(tempCouleur);
-		melTuiles.inserer(tempTuile);
+		tabTuile[currIndexTuile] = new Tuile(currIndexTuile);
+		tabTuile[currIndexTuile]->setTuileObjectif(tempCouleur);
+		melTuiles.inserer(tabTuile[currIndexTuile]);
+		currIndexTuile += 1;
 	}
 	for (int i = 5; i < 9; i++){ 					// 4 tuiles avec une sortie
 		couleurSorties.retirer(&tempCouleur);
-		tempTuile = new Tuile();
-		tempTuile->setTuileSortie(tempCouleur);
-		melTuiles.inserer(tempTuile);
+		tabTuile[currIndexTuile] = new Tuile(currIndexTuile);
+		tabTuile[currIndexTuile]->setTuileSortie(tempCouleur);
+		melTuiles.inserer(tabTuile[currIndexTuile]);
+		currIndexTuile += 1;
 	}
 	for (int i = 9; i < NB_TUILE_MAX; i++){			// le reste en tuiles normale
-		tempTuile = new Tuile();
-		tempTuile->setTuileNormale();
-		melTuiles.inserer(tempTuile);
+		tabTuile[currIndexTuile] = new Tuile(currIndexTuile);
+		tabTuile[currIndexTuile]->setTuileNormale();
+		melTuiles.inserer(tabTuile[currIndexTuile]);
+		currIndexTuile += 1;
 	}
 
 	/*

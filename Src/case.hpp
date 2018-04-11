@@ -44,6 +44,7 @@ class Case {
 		Arete* tab_access[14];
 		int nbArete;
         int app_tuile;
+        bool visit;
 
 		//construction depuis ligne et colonne
 		Case(unsigned int l, unsigned int c, int t);
@@ -91,30 +92,6 @@ class Case {
 		int distanceXCases(Case * c);
 		int distanceYCases(Case * c);
 
-/*		void setHaut(Case * c);
-		void setBas(Case * c);
-		void setGauche(Case * c);
-		void setDroite(Case * c);
-
-		Case * getHaut();
-		Case * getBas();
-		Case * getGauche();
-		Case * getDroite();
-*/
-
-	private :
-
-		//stockage sous forme d'un entier comme ci-dessus
-
-/*<<<<<<< HEAD
-		Case * ptrHaut;
-		Case * ptrBas;
-		Case * ptrGauche;
-		Case * ptrDroite;
-		//Case * tab_pointeurVersCases[14];
-=======
->>>>>>> parent of 749385d... Modif Viteuf
-*/
 };
 
 } //end of namespace MMaze
