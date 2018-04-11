@@ -57,7 +57,6 @@ Case* joueur::trouve_site(){
                 d = plat_jeu->tab_tuile[a->tuile]->tabCases[a->position];
                 if(d->visit){
                     if(d->type == status && d->color == co && d->nouv){
-                        d->nouv = false;
                         while(!g.empty()){
                             a = g.front();
                             d = plat_jeu->tab_tuile[a->tuile]->tabCases[a->position];

@@ -82,15 +82,68 @@ int main() {
 	tabJoueur[1] = new Joueur(VERT);
 	tabJoueur[2] = new Joueur(ORANGE);
 	tabJoueur[3] = new Joueur(VIOLET);
+*/
 
 
-
-	while(enJeu){
-		for(i = 0; i > 4; i++){
-			tabJoueur[i].mouvement();
-			verif_tuile(tabJoueur[i]);
-		}
-	}*/
+	while(enJeu) {
+        for(i = 0; i > 4; i++) {
+            if(joueur[i]->status == j->tuile_act->tabCases[position]->type && joueur[i]->status != ACCES){
+                c = joueur[i]->trouve_site();
+                tabJoueur[i]->mouvement(c->app_tuile, c->index);
+                Case* c = j->tuile_act->tabCases[position];
+                if(j->status == ACCES && c->type == ACCES && j->co == c->color && c->nouv){
+                    Tuile* t = melTuiles.retirer();
+                    if(c->index_ == 2){
+                        t->rotationTuile(3);
+                        j->tuile_act->left = t;
+                        j->plat_jeu->tab_tuiles[j->tuile_act->left->id] = j->tuile_act->left;
+                    }
+                    if(c->index_ == 4){
+                        j->tuile_act->up = t;
+                        j->plat_jeu->tab_tuiles[j->tuile_act->up->id] = j->tuile_act->up;
+                    }
+                    if(c->index_ == 11){
+                        t->rotationTuile(1)
+                        j->tuile_act->right = t;
+                        j->plat_jeu->tab_tuiles[j->tuile_act->right->id] = j->tuile_act->right;
+                    }
+                    if(c->index_ == 13){
+                        t->rotationTuile(2);
+                        j->tuile_act->down = t;
+                        j->plat_jeu->tab_tuiles[j->tuile_act->down->id] = j->tuile_act->down;
+                    }
+                    j->tuile_act->connecte_tuile_arete(c);
+                    c->nouv = false;
+                    if(t->id < 9){
+                        obj_trouv = obj_trouv + 1;
+                        if(obj_trouv == 8){
+                            for(i = 0; i < 4; i++){
+                                tabJoueur[i]->status = OBJECTIF;
+                            }
+                            obj_trouv = 0;
+                        }
+                    }
+                }
+                if(j->status == OBJECTIF && c->type == OBJECTIF && j->co == c->color && c->nouv){
+                    c->nouv = false;
+                    obj_trouv = obj_trouv + 1;
+                    if(obj_trouv == 4){
+                        for(i = 0; i < 4; i++){
+                            tabJoueur[i]->status = SORTIE;
+                        }
+                        obj_trouv = 0;
+                    }
+                }
+                if(j->status == SORTIE && c->type == SORTIE && j->co == c->color && c->nouv){
+                    c->nouv = false;
+                    obj_trouv = obj_trouv + 1;
+                    if(obj_trouv == 4){
+                        enJeu = false;
+                    }
+                }
+            }
+        }
+    }
 	/* avec un tableau de tuiles
 	tabTuile[0] = new Tuile;
 	tabTuile[0].setTuileDepart();
@@ -118,6 +171,7 @@ void verif_pos(Joueur*j){
     if(j->status == ACCES && c->type == ACCES && j->co == c->color && c->nouv){
         Tuile* t = melTuiles.retirer();
         if(c->index_ == 2){
+            t->rotationTuile(3);
             j->tuile_act->left = t;
             j->plat_jeu->tab_tuiles[j->tuile_act->left->id] = j->tuile_act->left;
         }
@@ -126,14 +180,17 @@ void verif_pos(Joueur*j){
             j->plat_jeu->tab_tuiles[j->tuile_act->up->id] = j->tuile_act->up;
         }
         if(c->index_ == 11){
+            t->rotationTuile(1)
             j->tuile_act->right = t;
             j->plat_jeu->tab_tuiles[j->tuile_act->right->id] = j->tuile_act->right;
         }
         if(c->index_ == 13){
+            t->rotationTuile(2);
             j->tuile_act->down = t;
             j->plat_jeu->tab_tuiles[j->tuile_act->down->id] = j->tuile_act->down;
         }
         j->tuile_act->connecte_tuile_arete(c);
+        c->nouv = false;
         if(t->id < 9){
             obj_trouv = obj_trouv + 1;
             if(obj_trouv == 8){
@@ -145,6 +202,7 @@ void verif_pos(Joueur*j){
         }
     }
     if(j->status == OBJECTIF && c->type == OBJECTIF && j->co == c->color && c->nouv){
+        c->nouv = false;
         obj_trouv = obj_trouv + 1;
         if(obj_trouv == 4){
             for(i = 0; i < 4; i++){
@@ -153,7 +211,8 @@ void verif_pos(Joueur*j){
                 obj_trouv = 0;
         }
     }
-    if(j->status == SORTIE && c->type == SORTIE && j->co == c->color && c-<nouv){
+    if(j->status == SORTIE && c->type == SORTIE && j->co == c->color && c->nouv){
+        c->nouv = false;
         obj_trouv = obj_trouv + 1;
         if(obj_trouv == 4){
             enJeu = false;
